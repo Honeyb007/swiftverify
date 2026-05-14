@@ -17,19 +17,30 @@
             <p class="text-zinc-500 text-sm mt-1">Sign in to manage submissions</p>
         </div>
         <form id="loginForm" class="space-y-4">
-            <input id="username" type="text" placeholder="Username" value="admin" class="w-full px-5 py-4 rounded-xl bg-zinc-950 border border-zinc-800 focus:border-purple-500 outline-none transition-all" required>
-            <input id="password" type="password" placeholder="Password" value="admin123" class="w-full px-5 py-4 rounded-xl bg-zinc-950 border border-zinc-800 focus:border-purple-500 outline-none transition-all" required>
-            <button type="submit" class="w-full py-4 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-bold transition-all shadow-lg shadow-purple-900/20">
+            <input id="username" type="text" placeholder="Username"
+                class="w-full px-5 py-4 rounded-xl bg-zinc-950 border border-zinc-800 focus:border-purple-500 outline-none transition-all" required>
+            <input id="password" type="password" placeholder="Password"
+                class="w-full px-5 py-4 rounded-xl bg-zinc-950 border border-zinc-800 focus:border-purple-500 outline-none transition-all" required>
+            <p id="errorMsg" class="hidden text-red-400 text-sm text-center"></p>
+            <button type="submit" id="submitBtn" class="w-full py-4 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-bold transition-all shadow-lg shadow-purple-900/20">
                 Sign In
             </button>
         </form>
     </div>
 
     <script>
+        const API = 'https://giftcard-check-production.up.railway.app';
+
         document.getElementById('loginForm').onsubmit = async (e) => {
             e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const err = document.getElementById('errorMsg');
+            btn.textContent = 'Signing in…';
+            btn.disabled = true;
+            err.classList.add('hidden');
+
             try {
-                const res = await fetch('http://localhost:5000/api/auth/login', {
+                const res = await fetch(`${API}/api/auth/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -40,13 +51,19 @@
                 const data = await res.json();
                 if (data.success) {
                     localStorage.setItem('adminToken', data.token);
-                    localStorage.setItem('adminRole', data.role);// Save token
-                    window.location.href = 'admin.html'; // Redirect to dashboard
+                    localStorage.setItem('adminRole', data.role);
+                    window.location.href = 'admin.html';
                 } else {
-                    alert("Invalid Credentials");
+                    err.textContent = 'Invalid credentials. Try again.';
+                    err.classList.remove('hidden');
+                    btn.textContent = 'Sign In';
+                    btn.disabled = false;
                 }
-            } catch (err) {
-                alert("Server error. Is your backend running on port 5000?");
+            } catch (e) {
+                err.textContent = 'Could not reach server. Try again.';
+                err.classList.remove('hidden');
+                btn.textContent = 'Sign In';
+                btn.disabled = false;
             }
         };
     </script>

