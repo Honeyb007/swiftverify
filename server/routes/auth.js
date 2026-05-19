@@ -7,7 +7,7 @@ const superAdminOnly = (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) return res.status(401).json({ message: 'Unauthorized' });
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secretkey123');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'verifyToken');
         if (decoded.role !== 'superadmin') return res.status(403).json({ message: 'Forbidden' });
         req.admin = decoded;
         next();
@@ -41,7 +41,7 @@ router.post('/login', (req, res) => {
 
     const token = jwt.sign(
         { username, role },
-        process.env.JWT_SECRET || 'secretkey123',
+        process.env.JWT_SECRET || 'verifyToken',
         { expiresIn: '1d' }
     );
 

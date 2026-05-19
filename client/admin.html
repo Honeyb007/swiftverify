@@ -3,151 +3,330 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AdminGC — Control Panel</title>
+    <title>VerifyIt — Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --bg:#07070a; --surface:#0f0f14; --surface2:#16161e;
-            --border:rgba(255,255,255,0.06); --accent:#7c5cfc;
-            --green:#22d3a5; --red:#f04f6a; --gold:#f5a623;
-            --text:#e8e8f0; --muted:#52525f;
+            --bg:        #fffbf0;
+            --surface:   #ffffff;
+            --surface2:  #fef9ec;
+            --border:    #f0e6c8;
+            --accent:    #f5a623;
+            --accent-dk: #d97706;
+            --accent-lt: #fef3c7;
+            --text:      #1a1a1a;
+            --muted:     #92836a;
+            --green:     #059669;
+            --green-lt:  #d1fae5;
+            --red:       #dc2626;
+            --red-lt:    #fee2e2;
+            --gold:      #f5a623;
         }
-        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-        html{-webkit-text-size-adjust:100%;}
-        body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
-        body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.013) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.013) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
-        body::after{content:'';position:fixed;top:-120px;right:-120px;width:400px;height:400px;background:radial-gradient(circle,rgba(124,92,252,0.07) 0%,transparent 70%);pointer-events:none;z-index:0;}
 
-        nav{position:sticky;top:0;z-index:100;background:rgba(7,7,10,0.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 1.25rem;height:60px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
-        @media(min-width:640px){nav{padding:0 2rem;height:64px;}}
-        .nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;letter-spacing:-0.02em;color:var(--text);display:flex;align-items:center;gap:9px;flex-shrink:0;}
-        .nav-logo .icon-wrap{width:32px;height:32px;background:var(--accent);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:0.8rem;flex-shrink:0;}
-        .nav-logo span{color:var(--accent);}
-        .nav-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
-        .live-badge{display:flex;align-items:center;gap:5px;background:rgba(34,211,165,0.08);border:1px solid rgba(34,211,165,0.2);color:var(--green);font-size:0.65rem;font-family:'DM Mono',monospace;padding:4px 9px;border-radius:999px;letter-spacing:0.05em;white-space:nowrap;}
-        .live-dot{width:6px;height:6px;background:var(--green);border-radius:50%;flex-shrink:0;animation:pulse-dot 2s infinite;}
-        @keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.35;transform:scale(.65);}}
-        .superadmin-badge{display:none;align-items:center;gap:5px;background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.25);color:var(--gold);font-size:0.65rem;font-family:'DM Mono',monospace;padding:4px 9px;border-radius:999px;letter-spacing:0.05em;white-space:nowrap;}
-        .superadmin-badge.visible{display:flex;}
-        .logout-btn{background:transparent;border:1px solid rgba(240,79,106,0.25);color:var(--red);font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:500;padding:8px 14px;min-height:40px;border-radius:8px;cursor:pointer;transition:background .2s,border-color .2s;display:flex;align-items:center;gap:6px;white-space:nowrap;-webkit-tap-highlight-color:transparent;}
-        .logout-btn:hover{background:rgba(240,79,106,0.1);border-color:var(--red);}
-        .logout-label{display:none;}
-        @media(min-width:400px){.logout-label{display:inline;}}
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { -webkit-text-size-adjust: 100%; }
 
-        main{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:2rem 1.25rem 5rem;}
-        @media(min-width:640px){main{padding:2.5rem 2rem 5rem;}}
-        @media(min-width:1024px){main{padding:3rem 2.5rem 6rem;}}
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
 
-        #superAdminPanel{display:none;background:linear-gradient(135deg,rgba(245,166,35,0.05),rgba(124,92,252,0.05));border:1px solid rgba(245,166,35,0.15);border-radius:18px;padding:1.5rem;margin-bottom:2rem;animation:cardIn .35s ease both;}
-        #superAdminPanel.visible{display:block;}
-        .panel-header{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;}
-        .panel-header i{color:var(--gold);font-size:1rem;}
-        .panel-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--text);}
-        .panel-subtitle{color:var(--muted);font-size:0.75rem;margin-top:2px;}
-        .stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;}
-        @media(min-width:640px){.stats-row{grid-template-columns:repeat(4,1fr);}}
-        .stat-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:1rem;text-align:center;}
-        .stat-value{font-family:'Syne',sans-serif;font-weight:800;font-size:1.6rem;color:var(--text);line-height:1;}
-        .stat-label{font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-top:4px;}
-        .stat-card.green .stat-value{color:var(--green);}
-        .stat-card.red .stat-value{color:var(--red);}
-        .stat-card.gold .stat-value{color:var(--gold);}
+        /* subtle dot pattern */
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background-image: radial-gradient(circle, #f0e6c8 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none; z-index: 0; opacity: 0.5;
+        }
 
-        .page-header{margin-bottom:2rem;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
-        @media(min-width:640px){.page-header{margin-bottom:2.5rem;align-items:flex-end;}}
-        .page-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.55rem,5vw,2.5rem);letter-spacing:-0.03em;color:var(--text);line-height:1.1;}
-        .page-subtitle{color:var(--muted);font-size:0.82rem;margin-top:4px;font-weight:300;}
-        .count-pill{font-family:'DM Mono',monospace;font-size:0.7rem;background:var(--surface2);border:1px solid var(--border);color:var(--accent);padding:5px 12px;border-radius:999px;letter-spacing:0.08em;white-space:nowrap;flex-shrink:0;align-self:flex-start;}
+        /* ── NAV ── */
+        nav {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(255,251,240,0.92);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 1.25rem; height: 60px;
+            display: flex; align-items: center; justify-content: space-between; gap: 8px;
+        }
+        @media(min-width:640px){ nav { padding: 0 2rem; height: 64px; } }
 
-        #submissionsList{display:grid;grid-template-columns:1fr;gap:1rem;}
-        @media(min-width:560px){#submissionsList{grid-template-columns:repeat(2,1fr);gap:1.25rem;}}
-        @media(min-width:1024px){#submissionsList{grid-template-columns:repeat(3,1fr);gap:1.5rem;}}
+        .nav-logo {
+            font-family: 'Syne', sans-serif; font-weight: 800;
+            font-size: 1.15rem; letter-spacing: -0.02em; color: var(--text);
+            display: flex; align-items: center; gap: 9px; flex-shrink: 0;
+        }
+        .nav-logo .icon-wrap {
+            width: 32px; height: 32px; background: var(--accent);
+            border-radius: 9px; display: flex; align-items: center;
+            justify-content: center; font-size: 0.8rem; color: #1a1a1a; flex-shrink: 0;
+        }
+        .nav-logo span { color: var(--accent-dk); }
 
-        .empty-state{grid-column:1/-1;text-align:center;padding:5rem 1.5rem;color:var(--muted);}
-        .empty-state i{font-size:2.2rem;margin-bottom:1rem;opacity:.25;display:block;}
-        .empty-state p{font-size:.88rem;font-weight:300;}
+        .nav-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 
-        .card{background:var(--surface);border:1px solid var(--border);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .25s,transform .25s,box-shadow .25s;animation:cardIn .35s ease both;}
-        @keyframes cardIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
-        @media(hover:hover){.card:hover{border-color:rgba(124,92,252,0.3);transform:translateY(-3px);box-shadow:0 16px 50px rgba(0,0,0,.4),0 0 0 1px rgba(124,92,252,.08);}}
+        .live-badge {
+            display: flex; align-items: center; gap: 5px;
+            background: var(--green-lt); border: 1px solid #6ee7b7;
+            color: var(--green); font-size: 0.65rem;
+            font-family: 'DM Mono', monospace;
+            padding: 4px 9px; border-radius: 999px;
+            letter-spacing: 0.05em; white-space: nowrap;
+        }
+        .live-dot {
+            width: 6px; height: 6px; background: var(--green);
+            border-radius: 50%; flex-shrink: 0;
+            animation: pulse-dot 2s infinite;
+        }
+        @keyframes pulse-dot {
+            0%,100% { opacity:1; transform:scale(1); }
+            50%     { opacity:.35; transform:scale(.65); }
+        }
 
-        .card-img{position:relative;height:160px;background:#0a0a0f;overflow:hidden;flex-shrink:0;}
-        @media(min-width:640px){.card-img{height:180px;}}
-        .card-img img{width:100%;height:100%;object-fit:contain;opacity:.82;display:block;transition:opacity .3s,transform .4s;}
-        @media(hover:hover){.card:hover .card-img img{opacity:1;transform:scale(1.02);}}
-        .card-img::after{content:'';position:absolute;bottom:0;left:0;right:0;height:50px;background:linear-gradient(transparent,var(--surface));pointer-events:none;}
+        .crown-badge {
+            display: none; align-items: center; gap: 5px;
+            background: var(--accent-lt); border: 1px solid var(--border);
+            color: var(--accent-dk); font-size: 0.65rem;
+            font-family: 'DM Mono', monospace;
+            padding: 4px 9px; border-radius: 999px;
+            letter-spacing: 0.05em; white-space: nowrap;
+        }
+        .crown-badge.visible { display: flex; }
 
-        .no-image-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);gap:8px;}
-        .no-image-placeholder i{font-size:1.5rem;opacity:0.3;}
-        .no-image-placeholder span{font-size:0.7rem;opacity:0.4;font-family:'DM Mono',monospace;}
+        .logout-btn {
+            background: transparent; border: 1px solid #fca5a5;
+            color: var(--red); font-family: 'DM Sans', sans-serif;
+            font-size: 0.78rem; font-weight: 500;
+            padding: 8px 14px; min-height: 40px; border-radius: 8px;
+            cursor: pointer; transition: background .2s, border-color .2s;
+            display: flex; align-items: center; gap: 6px; white-space: nowrap;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .logout-btn:hover  { background: var(--red-lt); }
+        .logout-btn:active { opacity: 0.8; }
+        .logout-label { display: none; }
+        @media(min-width:400px){ .logout-label { display: inline; } }
 
-        .delete-btn{position:absolute;top:10px;right:10px;width:42px;height:42px;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.06);border-radius:10px;color:var(--muted);font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s,color .2s;z-index:10;-webkit-tap-highlight-color:transparent;}
-        .delete-btn:hover{background:var(--red);border-color:var(--red);color:white;}
-        .status-badge{position:absolute;top:10px;left:10px;font-family:'DM Mono',monospace;font-size:.58rem;font-weight:500;padding:3px 8px;border-radius:6px;letter-spacing:.06em;text-transform:uppercase;z-index:10;}
-        .status-badge.pending{background:rgba(124,92,252,.15);color:var(--accent);border:1px solid rgba(124,92,252,.25);}
-        .status-badge.approved{background:rgba(34,211,165,.12);color:var(--green);border:1px solid rgba(34,211,165,.2);}
-        .status-badge.rejected{background:rgba(240,79,106,.12);color:var(--red);border:1px solid rgba(240,79,106,.2);}
-        .status-badge.timedout{background:rgba(245,166,35,.12);color:var(--gold);border:1px solid rgba(245,166,35,.2);}
+        /* ── MAIN ── */
+        main {
+            position: relative; z-index: 1;
+            max-width: 1280px; margin: 0 auto;
+            padding: 2rem 1.25rem 5rem;
+        }
+        @media(min-width:640px)  { main { padding: 2.5rem 2rem 5rem; } }
+        @media(min-width:1024px) { main { padding: 3rem 2.5rem 6rem; } }
 
-        .card-body{padding:1.1rem 1.1rem 1.3rem;flex:1;display:flex;flex-direction:column;gap:.85rem;}
-        .code-label{font-size:.62rem;font-weight:600;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px;}
-        .code-value{font-family:'DM Mono',monospace;font-size:.9rem;color:var(--text);font-weight:500;word-break:break-all;line-height:1.5;}
-        .card-meta{display:flex;align-items:center;gap:6px;font-size:.7rem;color:var(--muted);flex-wrap:wrap;}
-        .card-meta .verified-by{margin-left:auto;color:var(--accent);font-family:'DM Mono',monospace;font-size:.62rem;}
-        .card-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto;}
-        .btn-approve,.btn-reject{padding:11px 8px;min-height:46px;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;border:none;transition:background .2s,box-shadow .2s,color .2s;display:flex;align-items:center;justify-content:center;gap:6px;-webkit-tap-highlight-color:transparent;}
-        .btn-approve{background:rgba(34,211,165,.08);color:var(--green);border:1px solid rgba(34,211,165,.15);}
-        .btn-reject{background:rgba(240,79,106,.08);color:var(--red);border:1px solid rgba(240,79,106,.15);}
-        .btn-approve:hover{background:var(--green);color:#07070a;border-color:var(--green);box-shadow:0 4px 18px rgba(34,211,165,.3);}
-        .btn-reject:hover{background:var(--red);color:white;border-color:var(--red);box-shadow:0 4px 18px rgba(240,79,106,.3);}
-        .verified-notice{text-align:center;font-size:.73rem;color:var(--muted);padding:10px;border-radius:10px;background:var(--surface2);font-style:italic;grid-column:1/-1;}
+        /* ── OWNER PANEL ── */
+        #ownerPanel {
+            display: none;
+            background: linear-gradient(135deg, var(--accent-lt), #fff);
+            border: 1px solid var(--border);
+            border-radius: 18px; padding: 1.5rem; margin-bottom: 2rem;
+            animation: cardIn .35s ease both;
+        }
+        #ownerPanel.visible { display: block; }
 
-        #toast{position:fixed;bottom:1.25rem;left:1.25rem;right:1.25rem;z-index:999;display:flex;flex-direction:column;gap:8px;pointer-events:none;align-items:stretch;}
-        @media(min-width:540px){#toast{left:auto;right:1.5rem;width:300px;align-items:flex-end;}}
-        .toast-item{background:var(--surface2);border:1px solid var(--border);color:var(--text);font-size:.82rem;padding:12px 16px;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.5);display:flex;align-items:center;gap:10px;animation:toastIn .3s ease;pointer-events:all;width:100%;transition:opacity .3s;}
-        @keyframes toastIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-        .toast-item.success{border-left:3px solid var(--green);}
-        .toast-item.error{border-left:3px solid var(--red);}
-        .toast-item.info{border-left:3px solid var(--accent);}
+        .panel-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; }
+        .panel-header i { color: var(--accent-dk); font-size: 1rem; }
+        .panel-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; color: var(--text); }
+        .panel-subtitle { color: var(--muted); font-size: 0.75rem; margin-top: 2px; }
 
-        #modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:200;display:none;align-items:flex-end;justify-content:center;padding:0;}
-        #modal-overlay.open{display:flex;}
-        @media(min-width:540px){#modal-overlay{align-items:center;padding:1rem;}}
-        .modal-box{background:var(--surface);border:1px solid var(--border);border-radius:24px 24px 0 0;padding:1.75rem 1.5rem calc(1.75rem + env(safe-area-inset-bottom));width:100%;animation:sheetUp .28s ease;}
-        @keyframes sheetUp{from{transform:translateY(40px);opacity:0;}to{transform:translateY(0);opacity:1;}}
-        @media(min-width:540px){.modal-box{border-radius:20px;max-width:420px;padding:2rem;animation:modalPop .25s ease;}}
-        @keyframes modalPop{from{opacity:0;transform:scale(.95);}to{opacity:1;transform:scale(1);}}
-        .modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 1.5rem;}
-        @media(min-width:540px){.modal-handle{display:none;}}
-        .modal-title{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:.4rem;}
-        .modal-desc{color:var(--muted);font-size:.83rem;margin-bottom:1.25rem;line-height:1.55;}
-        .modal-input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;margin-bottom:1.25rem;resize:vertical;min-height:80px;}
-        .modal-input:focus{border-color:var(--accent);}
-        .modal-actions{display:flex;gap:8px;justify-content:flex-end;}
-        .modal-cancel{background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.85rem;padding:10px 18px;min-height:46px;border-radius:10px;cursor:pointer;transition:border-color .2s,color .2s;-webkit-tap-highlight-color:transparent;}
-        .modal-cancel:hover{border-color:var(--muted);color:var(--text);}
-        .modal-confirm{font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:600;padding:10px 22px;min-height:46px;border-radius:10px;cursor:pointer;border:none;transition:box-shadow .2s,opacity .2s;-webkit-tap-highlight-color:transparent;}
-        .modal-confirm:disabled{opacity:.5;cursor:not-allowed;}
-        .modal-confirm.approve{background:var(--green);color:#07070a;}
-        .modal-confirm.approve:hover{box-shadow:0 4px 16px rgba(34,211,165,.4);}
-        .modal-confirm.reject{background:var(--red);color:white;}
-        .modal-confirm.reject:hover{box-shadow:0 4px 16px rgba(240,79,106,.4);}
-        ::-webkit-scrollbar{width:4px;}
-        ::-webkit-scrollbar-track{background:transparent;}
-        ::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:4px;}
+        .stats-row { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; }
+        @media(min-width:640px){ .stats-row { grid-template-columns: repeat(4,1fr); } }
+
+        .stat-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; padding: 1rem; text-align: center;
+        }
+        .stat-value { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.6rem; color: var(--text); line-height: 1; }
+        .stat-label { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
+        .stat-card.green .stat-value { color: var(--green); }
+        .stat-card.red   .stat-value { color: var(--red); }
+        .stat-card.amber .stat-value { color: var(--accent-dk); }
+
+        /* ── PAGE HEADER ── */
+        .page-header {
+            margin-bottom: 2rem;
+            display: flex; align-items: flex-start;
+            justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+        }
+        @media(min-width:640px){ .page-header { margin-bottom: 2.5rem; align-items: flex-end; } }
+
+        .page-title {
+            font-family: 'Syne', sans-serif; font-weight: 800;
+            font-size: clamp(1.55rem, 5vw, 2.5rem);
+            letter-spacing: -0.03em; color: var(--text); line-height: 1.1;
+        }
+        .page-subtitle { color: var(--muted); font-size: 0.82rem; margin-top: 4px; font-weight: 300; }
+
+        .count-pill {
+            font-family: 'DM Mono', monospace; font-size: 0.7rem;
+            background: var(--accent-lt); border: 1px solid var(--border);
+            color: var(--accent-dk); padding: 5px 12px; border-radius: 999px;
+            letter-spacing: 0.08em; white-space: nowrap;
+            flex-shrink: 0; align-self: flex-start;
+        }
+
+        /* ── GRID ── */
+        #submissionsList { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+        @media(min-width:560px)  { #submissionsList { grid-template-columns: repeat(2,1fr); gap: 1.25rem; } }
+        @media(min-width:1024px) { #submissionsList { grid-template-columns: repeat(3,1fr); gap: 1.5rem; } }
+
+        /* ── EMPTY STATE ── */
+        .empty-state { grid-column:1/-1; text-align:center; padding:5rem 1.5rem; color:var(--muted); }
+        .empty-state i { font-size:2.2rem; margin-bottom:1rem; opacity:.25; display:block; }
+        .empty-state p { font-size:.88rem; font-weight:300; }
+
+        /* ── CARD ── */
+        .card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 18px; overflow: hidden;
+            display: flex; flex-direction: column;
+            transition: border-color .25s, transform .25s, box-shadow .25s;
+            animation: cardIn .35s ease both;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+        }
+        @keyframes cardIn { from{opacity:0;transform:translateY(14px);} to{opacity:1;transform:translateY(0);} }
+        @media(hover:hover){
+            .card:hover {
+                border-color: var(--accent);
+                transform: translateY(-3px);
+                box-shadow: 0 12px 40px rgba(245,166,35,0.15), 0 0 0 1px var(--accent);
+            }
+        }
+
+        .card-img {
+            position: relative; height: 160px;
+            background: var(--surface2); overflow: hidden; flex-shrink: 0;
+        }
+        @media(min-width:640px){ .card-img { height: 180px; } }
+
+        .card-img img {
+            width:100%; height:100%; object-fit:contain;
+            opacity:.9; display:block;
+            transition: opacity .3s, transform .4s;
+        }
+        @media(hover:hover){ .card:hover .card-img img { opacity:1; transform:scale(1.02); } }
+
+        .card-img::after {
+            content:''; position:absolute; bottom:0; left:0; right:0;
+            height:40px; background:linear-gradient(transparent, var(--surface));
+            pointer-events:none;
+        }
+
+        .no-img {
+            width:100%; height:100%;
+            display:flex; flex-direction:column;
+            align-items:center; justify-content:center;
+            color:var(--muted); gap:6px;
+        }
+        .no-img i { font-size:1.5rem; opacity:.3; }
+        .no-img span { font-size:.65rem; opacity:.4; font-family:'DM Mono',monospace; }
+
+        .delete-btn {
+            position:absolute; top:10px; right:10px;
+            width:40px; height:40px;
+            background:rgba(255,255,255,.9);
+            border:1px solid var(--border); border-radius:10px;
+            color:var(--muted); font-size:.8rem; cursor:pointer;
+            display:flex; align-items:center; justify-content:center;
+            transition:background .2s, color .2s;
+            z-index:10; -webkit-tap-highlight-color:transparent;
+        }
+        .delete-btn:hover { background:var(--red); border-color:var(--red); color:white; }
+
+        .status-badge {
+            position:absolute; top:10px; left:10px;
+            font-family:'DM Mono',monospace;
+            font-size:.58rem; font-weight:500;
+            padding:3px 8px; border-radius:6px;
+            letter-spacing:.06em; text-transform:uppercase; z-index:10;
+        }
+        .status-badge.pending  { background:var(--accent-lt); color:var(--accent-dk); border:1px solid var(--border); }
+        .status-badge.approved { background:var(--green-lt);  color:var(--green);     border:1px solid #6ee7b7; }
+        .status-badge.rejected { background:var(--red-lt);    color:var(--red);       border:1px solid #fca5a5; }
+        .status-badge.expired  { background:#f3f4f6;          color:#6b7280;          border:1px solid #e5e7eb; }
+
+        .card-body { padding:1.1rem 1.1rem 1.3rem; flex:1; display:flex; flex-direction:column; gap:.85rem; }
+
+        .code-label { font-size:.62rem; font-weight:600; color:var(--muted); letter-spacing:.12em; text-transform:uppercase; margin-bottom:3px; }
+        .code-value { font-family:'DM Mono',monospace; font-size:.9rem; color:var(--text); font-weight:500; word-break:break-all; line-height:1.5; }
+
+        .card-meta { display:flex; align-items:center; gap:6px; font-size:.7rem; color:var(--muted); flex-wrap:wrap; }
+        .card-meta .verified-by { margin-left:auto; color:var(--accent-dk); font-family:'DM Mono',monospace; font-size:.62rem; }
+
+        .card-actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:auto; }
+
+        .btn-approve, .btn-reject {
+            padding:12px 8px; min-height:46px; border-radius:12px;
+            font-family:'DM Sans',sans-serif; font-size:.82rem; font-weight:700;
+            cursor:pointer; border:none;
+            transition:background .2s, box-shadow .2s, transform .1s;
+            display:flex; align-items:center; justify-content:center; gap:6px;
+            -webkit-tap-highlight-color:transparent;
+        }
+        .btn-approve { background:var(--green-lt); color:var(--green); border:1px solid #6ee7b7; }
+        .btn-reject  { background:var(--red-lt);   color:var(--red);   border:1px solid #fca5a5; }
+        .btn-approve:hover  { background:var(--green); color:white; border-color:var(--green); box-shadow:0 4px 16px rgba(5,150,105,.3); }
+        .btn-reject:hover   { background:var(--red);   color:white; border-color:var(--red);   box-shadow:0 4px 16px rgba(220,38,38,.3); }
+        .btn-approve:active, .btn-reject:active { transform: scale(0.97); }
+
+        .verified-notice {
+            text-align:center; font-size:.73rem; color:var(--muted);
+            padding:10px; border-radius:10px;
+            background:var(--surface2); font-style:italic; grid-column:1/-1;
+            border: 1px solid var(--border);
+        }
+
+        .timed-out-notice {
+            text-align:center; font-size:.73rem; color:#6b7280;
+            padding:10px; border-radius:10px;
+            background:#f9fafb; grid-column:1/-1;
+            border: 1px solid #e5e7eb;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+
+        /* ── TOAST ── */
+        #toast {
+            position:fixed; bottom:1.25rem; left:1.25rem; right:1.25rem;
+            z-index:999; display:flex; flex-direction:column;
+            gap:8px; pointer-events:none; align-items:stretch;
+        }
+        @media(min-width:540px){ #toast { left:auto; right:1.5rem; width:300px; align-items:flex-end; } }
+
+        .toast-item {
+            background:var(--surface); border:1px solid var(--border);
+            color:var(--text); font-size:.82rem; padding:12px 16px;
+            border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,.1);
+            display:flex; align-items:center; gap:10px;
+            animation:toastIn .3s ease; pointer-events:all;
+            width:100%; transition:opacity .3s;
+        }
+        @keyframes toastIn { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
+        .toast-item.success { border-left:3px solid var(--green); }
+        .toast-item.error   { border-left:3px solid var(--red); }
+        .toast-item.info    { border-left:3px solid var(--accent-dk); }
+
+        ::-webkit-scrollbar { width:4px; }
+        ::-webkit-scrollbar-track { background:transparent; }
+        ::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
     </style>
 </head>
 <body>
 
 <nav>
     <div class="nav-logo">
-        <div class="icon-wrap"><i class="fa-solid fa-gift"></i></div>
-        Admin<span>GC</span>
+        <div class="icon-wrap"><i class="fa-solid fa-shield-check"></i></div>
+        Verify<span>It</span>
     </div>
     <div class="nav-right">
-        <div class="superadmin-badge" id="superAdminBadge">
+        <div class="crown-badge" id="crownBadge">
             <i class="fa-solid fa-crown"></i> OWNER
         </div>
         <div class="live-badge"><div class="live-dot"></div>LIVE</div>
@@ -159,19 +338,20 @@
 </nav>
 
 <main>
-    <div id="superAdminPanel">
+    <!-- Owner panel — only visible to superadmin token -->
+    <div id="ownerPanel">
         <div class="panel-header">
             <i class="fa-solid fa-crown"></i>
             <div>
                 <p class="panel-title">Owner Overview</p>
-                <p class="panel-subtitle">Only you can see this panel</p>
+                <p class="panel-subtitle">Only you can see this</p>
             </div>
         </div>
         <div class="stats-row">
             <div class="stat-card"><div class="stat-value" id="statTotal">0</div><div class="stat-label">Total</div></div>
             <div class="stat-card green"><div class="stat-value" id="statApproved">0</div><div class="stat-label">Approved</div></div>
             <div class="stat-card red"><div class="stat-value" id="statRejected">0</div><div class="stat-label">Rejected</div></div>
-            <div class="stat-card gold"><div class="stat-value" id="statPending">0</div><div class="stat-label">Pending</div></div>
+            <div class="stat-card amber"><div class="stat-value" id="statPending">0</div><div class="stat-label">Pending</div></div>
         </div>
     </div>
 
@@ -182,38 +362,25 @@
         </div>
         <div class="count-pill"><span id="subCount">0</span> SUBMISSIONS</div>
     </div>
+
     <div id="submissionsList"></div>
 </main>
 
 <div id="toast"></div>
 
-<div id="modal-overlay">
-    <div class="modal-box">
-        <div class="modal-handle"></div>
-        <h3 class="modal-title" id="modal-title">Confirm Action</h3>
-        <p class="modal-desc" id="modal-desc">Add an optional message for the user.</p>
-        <textarea class="modal-input" id="modal-msg" placeholder="Optional message (e.g. 'Code is valid and active')"></textarea>
-        <div class="modal-actions">
-            <button class="modal-cancel" onclick="closeModal()">Cancel</button>
-            <button class="modal-confirm" id="modal-confirm-btn" onclick="confirmVerify()">Confirm</button>
-        </div>
-    </div>
-</div>
-
 <script>
-    const API   = 'https://giftcard-check-production.up.railway.app';
+    const API   = 'https://giftcard-check-production.up.railway.app'; // ← update per client
     const token = localStorage.getItem('adminToken');
     const role  = localStorage.getItem('adminRole');
     if (!token) window.location.href = 'login.html';
 
     const isSuperAdmin = role === 'superadmin';
     if (isSuperAdmin) {
-        document.getElementById('superAdminPanel').classList.add('visible');
-        document.getElementById('superAdminBadge').classList.add('visible');
+        document.getElementById('ownerPanel').classList.add('visible');
+        document.getElementById('crownBadge').classList.add('visible');
     }
 
-    let pendingVerify = { id: null, status: null };
-
+    // ── Toast ──────────────────────────────────────
     function showToast(msg, type = 'info') {
         const icons = { success:'fa-circle-check', error:'fa-circle-xmark', info:'fa-circle-info' };
         const wrap = document.getElementById('toast');
@@ -221,124 +388,92 @@
         el.className = `toast-item ${type}`;
         el.innerHTML = `<i class="fa-solid ${icons[type]}" style="flex-shrink:0"></i><span>${msg}</span>`;
         wrap.appendChild(el);
-        setTimeout(() => { el.style.opacity = '0'; setTimeout(() => el.remove(), 320); }, 3200);
+        setTimeout(() => { el.style.opacity='0'; setTimeout(()=>el.remove(),320); }, 3200);
     }
 
-    function openModal(id, status) {
-        pendingVerify = { id, status };
-        const ok = status === 'approved';
-        document.getElementById('modal-title').textContent = ok ? '✅ Approve Submission' : '❌ Reject Submission';
-        document.getElementById('modal-desc').textContent  = ok
-            ? 'Approving will notify the user their card is valid.'
-            : 'Rejecting will notify the user their card could not be verified.';
-        const btn = document.getElementById('modal-confirm-btn');
-        btn.textContent = ok ? 'Approve' : 'Reject';
-        btn.className   = `modal-confirm ${ok ? 'approve' : 'reject'}`;
-        btn.disabled    = false;
-        document.getElementById('modal-msg').value = '';
-        document.getElementById('modal-overlay').classList.add('open');
-        document.body.style.overflow = 'hidden';
+    // ── Time helpers ───────────────────────────────
+    function isExpired(createdAt) {
+        if (!createdAt) return false;
+        return (Date.now() - new Date(createdAt)) > 5 * 60 * 1000; // 5 minutes
     }
 
-    function closeModal() {
-        document.getElementById('modal-overlay').classList.remove('open');
-        document.body.style.overflow = '';
-        pendingVerify = { id: null, status: null };
+    function formatTime(dateStr) {
+        if (!dateStr) return '';
+        const d = new Date(dateStr);
+        const hh = d.getHours().toString().padStart(2,'0');
+        const mm = d.getMinutes().toString().padStart(2,'0');
+        const diff = Math.floor((Date.now() - d) / 1000);
+        let ago;
+        if (diff < 60)    ago = `${diff}s ago`;
+        else if (diff < 3600)  ago = `${Math.floor(diff/60)}m ago`;
+        else if (diff < 86400) ago = `${Math.floor(diff/3600)}h ago`;
+        else               ago = `${Math.floor(diff/86400)}d ago`;
+        return `${hh}:${mm} · ${ago}`;
     }
 
-    document.getElementById('modal-overlay').addEventListener('click', function(e) {
-        if (e.target === this) closeModal();
-    });
-
-    async function confirmVerify() {
-        const { id, status } = pendingVerify;
-        if (!id) return;
-        const msg = document.getElementById('modal-msg').value.trim();
-        const btn = document.getElementById('modal-confirm-btn');
-        btn.textContent = 'Sending…'; btn.disabled = true;
-        try {
-            const res = await fetch(`${API}/api/submissions/${id}/verify`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-                body: JSON.stringify({ status, resultMessage: msg })
-            });
-            if (!res.ok) throw new Error();
-            showToast(status === 'approved' ? 'Submission approved!' : 'Submission rejected.',
-                      status === 'approved' ? 'success' : 'error');
-            closeModal();
-            loadSubmissions();
-        } catch {
-            showToast('Failed to update. Try again.', 'error');
-            btn.disabled = false;
-            btn.textContent = status === 'approved' ? 'Approve' : 'Reject';
-        }
-    }
-
+    // ── Load & Render ──────────────────────────────
     async function loadSubmissions() {
         try {
-            if (!token) {
-                showToast('No admin token found. Please log in again.', 'error');
-                console.error('No token in localStorage');
-                return;
-            }
-            console.log('Fetching submissions from:', `${API}/api/submissions`);
             const res = await fetch(`${API}/api/submissions`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            console.log('Response status:', res.status);
             if (res.status === 401) { logout(); return; }
-            if (!res.ok) {
-                const errorData = await res.text();
-                console.error('Fetch error:', res.status, errorData);
-                throw new Error(`HTTP ${res.status}: ${errorData}`);
-            }
             const data = await res.json();
-            console.log('Submissions loaded:', data.length);
             document.getElementById('subCount').textContent = data.length;
             if (isSuperAdmin) {
                 document.getElementById('statTotal').textContent    = data.length;
-                document.getElementById('statApproved').textContent = data.filter(s => s.status === 'approved').length;
-                document.getElementById('statRejected').textContent = data.filter(s => s.status === 'rejected').length;
-                document.getElementById('statPending').textContent  = data.filter(s => !s.status || s.status === 'pending').length;
+                document.getElementById('statApproved').textContent = data.filter(s=>s.status==='approved').length;
+                document.getElementById('statRejected').textContent = data.filter(s=>s.status==='rejected').length;
+                document.getElementById('statPending').textContent  = data.filter(s=>!s.status||s.status==='pending').length;
             }
             render(data);
-        } catch (err) { 
-            console.error('LoadSubmissions error:', err);
-            showToast('Could not fetch submissions: ' + err.message, 'error'); 
-        }
-    }
-
-    function timeAgo(d) {
-        if (!d) return '';
-        const s = Math.floor((Date.now() - new Date(d)) / 1000);
-        if (s < 60)    return `${s}s ago`;
-        if (s < 3600)  return `${Math.floor(s/60)}m ago`;
-        if (s < 86400) return `${Math.floor(s/3600)}h ago`;
-        return `${Math.floor(s/86400)}d ago`;
+        } catch { showToast('Could not fetch submissions.','error'); }
     }
 
     function render(items) {
         const list = document.getElementById('submissionsList');
         if (!items.length) {
-            list.innerHTML = `<div class="empty-state"><i class="fa-solid fa-inbox"></i><p>No submissions yet.</p></div>`;
+            list.innerHTML = `<div class="empty-state"><i class="fa-solid fa-inbox"></i><p>No submissions yet. They'll appear here in real-time.</p></div>`;
             return;
         }
+
         list.innerHTML = items.map((sub, i) => {
-            const isTimedOut = (!sub.status || sub.status === 'pending') && (Date.now() - new Date(sub.createdAt)) > 300000; // 5 mins
-            const status     = isTimedOut ? 'timedout' : (sub.status || 'pending');
+            const status     = sub.status || 'pending';
             const isVerified = status === 'approved' || status === 'rejected';
+            const expired    = !isVerified && isExpired(sub.createdAt);
             const delay      = Math.min(i * 55, 400);
-            const deleteBtn  = isSuperAdmin
-                ? `<button class="delete-btn" onclick="deleteSub('${sub._id}')" title="Delete"><i class="fa-solid fa-trash-can"></i></button>`
-                : '';
+
             const imgContent = sub.imagePath
                 ? `<img src="${sub.imagePath}" alt="Gift card" onerror="this.style.display='none'">`
-                : `<div class="no-image-placeholder"><i class="fa-regular fa-image"></i><span>No image</span></div>`;
+                : `<div class="no-img"><i class="fa-regular fa-image"></i><span>No image</span></div>`;
+
+            const deleteBtn = isSuperAdmin
+                ? `<button class="delete-btn" onclick="deleteSub('${sub._id}')" title="Delete"><i class="fa-solid fa-trash-can"></i></button>`
+                : '';
+
+            // What to show in card actions
+            let actionsHtml;
+            if (isVerified) {
+                actionsHtml = `<div class="verified-notice">Already ${status}</div>`;
+            } else if (expired) {
+                actionsHtml = `<div class="timed-out-notice"><i class="fa-regular fa-clock"></i> Time's Out</div>`;
+            } else {
+                actionsHtml = `
+                    <button class="btn-approve" onclick="verify('${sub._id}','approved')">
+                        <i class="fa-solid fa-check"></i> Approve
+                    </button>
+                    <button class="btn-reject" onclick="verify('${sub._id}','rejected')">
+                        <i class="fa-solid fa-xmark"></i> Reject
+                    </button>`;
+            }
+
+            const badgeStatus = expired && !isVerified ? 'expired' : status;
+            const badgeLabel  = expired && !isVerified ? 'expired' : status;
 
             return `
             <div class="card" style="animation-delay:${delay}ms">
                 <div class="card-img">
-                    <span class="status-badge ${status}">${status}</span>
+                    <span class="status-badge ${badgeStatus}">${badgeLabel}</span>
                     ${imgContent}
                     ${deleteBtn}
                 </div>
@@ -349,23 +484,30 @@
                     </div>
                     <div class="card-meta">
                         <i class="fa-regular fa-clock"></i>
-                        ${timeAgo(sub.createdAt)}
+                        ${formatTime(sub.createdAt)}
                         ${sub.verifiedBy ? `<span class="verified-by">by ${sub.verifiedBy}</span>` : ''}
                     </div>
-                    <div class="card-actions">
-                        ${isVerified
-                            ? `<div class="verified-notice">Already ${status}</div>`
-                            : isTimedOut
-                            ? `<div class="verified-notice">Time Passed</div>`
-                            : `<button class="btn-approve" onclick="openModal('${sub._id}','approved')"><i class="fa-solid fa-check"></i> Approve</button>
-                               <button class="btn-reject"  onclick="openModal('${sub._id}','rejected')"><i class="fa-solid fa-xmark"></i> Reject</button>`
-                        }
-                    </div>
+                    <div class="card-actions">${actionsHtml}</div>
                 </div>
             </div>`;
         }).join('');
     }
 
+    // ── Verify — one click, no modal ───────────────
+    async function verify(id, status) {
+        try {
+            const res = await fetch(`${API}/api/submissions/${id}/verify`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                body: JSON.stringify({ status, resultMessage: '' })
+            });
+            if (!res.ok) throw new Error();
+            showToast(status === 'approved' ? 'Approved!' : 'Rejected.', status === 'approved' ? 'success' : 'error');
+            loadSubmissions();
+        } catch { showToast('Failed to update. Try again.', 'error'); }
+    }
+
+    // ── Delete ─────────────────────────────────────
     async function deleteSub(id) {
         if (!confirm('Delete this submission permanently?')) return;
         try {
@@ -373,8 +515,8 @@
                 method: 'DELETE',
                 headers: { Authorization: `Bearer ${token}` }
             });
-            if (res.status === 403) { showToast('Not authorised to delete.', 'error'); return; }
-            showToast('Submission deleted.', 'info');
+            if (res.status === 403) { showToast('Not authorised.', 'error'); return; }
+            showToast('Deleted.', 'info');
             loadSubmissions();
         } catch { showToast('Delete failed.', 'error'); }
     }
@@ -384,6 +526,9 @@
     socket.on('connect',       () => showToast('Live updates active.', 'success'));
     socket.on('newSubmission', () => { showToast('New submission!', 'info'); loadSubmissions(); });
     socket.on('disconnect',    () => showToast('Connection lost.', 'error'));
+
+    // Refresh every 30s so "Time's Out" labels update automatically
+    setInterval(loadSubmissions, 30000);
 
     function logout() {
         localStorage.removeItem('adminToken');
