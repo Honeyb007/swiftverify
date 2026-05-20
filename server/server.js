@@ -21,7 +21,7 @@ const server = http.createServer(app);
 // ── Socket.io ─────────────────────────────────────────────
 const io = new Server(server, {
     cors: {
-        origin:  ['https://giftcard-check.vercel.app', 'http://localhost:3000', 'http://localhost:8080'],   // Allow production and common dev ports
+        origin:  [, 'http://localhost:3000', 'http://localhost:8080', 'https://verifyit-ora7.onrender.com', 'http://127.0.0.1:5500'],   // Allow production and common dev ports
         methods: ['GET', 'POST'],
     },
     transports: ['polling']
@@ -30,7 +30,7 @@ app.set('io', io);
 
 // ── Middleware ────────────────────────────────────────────
 app.use(cors({
-    origin: ['https://giftcard-check.vercel.app', 'http://localhost:3000', 'http://localhost:8080'],   // Allow production and common dev ports
+    origin: ['https://verifyit-ora7.onrender.com', 'http://localhost:3000', 'http://localhost:8080' ,'http://127.0.0.1:5500' ],   // Allow production and common dev ports
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true
 }
