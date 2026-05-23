@@ -3,31 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VerifyIt — Admin</title>
+    <title>SwiftVerify — Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg:        #fffbf0;
-            --surface:   #ffffff;
-            --surface2:  #fef9ec;
-            --border:    #f0e6c8;
-            --accent:    #f5a623;
-            --accent-dk: #d97706;
-            --accent-lt: #fef3c7;
-            --text:      #1a1a1a;
-            --muted:     #92836a;
-            --green:     #059669;
-            --green-lt:  #d1fae5;
-            --red:       #dc2626;
-            --red-lt:    #fee2e2;
+            --bg:        #0a0f1e;
+            --surface:   #111827;
+            --surface2:  #1a2235;
+            --border:    rgba(0,212,255,0.1);
+            --accent:    #00d4ff;
+            --accent-dk: #0099bb;
+            --accent-lt: rgba(0,212,255,0.08);
+            --text:      #f0f4ff;
+            --muted:     #6b7fa3;
+            --green:     #10b981;
+            --green-lt:  rgba(16,185,129,0.1);
+            --red:       #ef4444;
+            --red-lt:    rgba(239,68,68,0.1);
             --gold:      #f5a623;
         }
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { -webkit-text-size-adjust: 100%; }
+        *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+        html { -webkit-text-size-adjust:100%; }
 
         body {
             background: var(--bg);
@@ -37,52 +37,55 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* subtle dot pattern */
         body::before {
-            content: '';
-            position: fixed; inset: 0;
-            background-image: radial-gradient(circle, #f0e6c8 1px, transparent 1px);
-            background-size: 24px 24px;
-            pointer-events: none; z-index: 0; opacity: 0.5;
+            content:'';
+            position:fixed; inset:0;
+            background-image:
+                linear-gradient(rgba(0,212,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,212,255,0.02) 1px, transparent 1px);
+            background-size:50px 50px;
+            pointer-events:none; z-index:0;
         }
 
         /* ── NAV ── */
         nav {
-            position: sticky; top: 0; z-index: 100;
-            background: rgba(255,251,240,0.92);
-            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border);
-            padding: 0 1.25rem; height: 60px;
-            display: flex; align-items: center; justify-content: space-between; gap: 8px;
+            position:sticky; top:0; z-index:100;
+            background:rgba(10,15,30,0.92);
+            backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+            border-bottom:1px solid var(--border);
+            padding:0 1.25rem; height:60px;
+            display:flex; align-items:center; justify-content:space-between; gap:8px;
         }
-        @media(min-width:640px){ nav { padding: 0 2rem; height: 64px; } }
+        @media(min-width:640px){ nav { padding:0 2rem; height:64px; } }
 
         .nav-logo {
-            font-family: 'Syne', sans-serif; font-weight: 800;
-            font-size: 1.15rem; letter-spacing: -0.02em; color: var(--text);
-            display: flex; align-items: center; gap: 9px; flex-shrink: 0;
+            font-family:'Syne',sans-serif; font-weight:800;
+            font-size:1.1rem; letter-spacing:-0.02em; color:var(--text);
+            display:flex; align-items:center; gap:9px; flex-shrink:0;
         }
         .nav-logo .icon-wrap {
-            width: 32px; height: 32px; background: var(--accent);
-            border-radius: 9px; display: flex; align-items: center;
-            justify-content: center; font-size: 0.8rem; color: #1a1a1a; flex-shrink: 0;
+            width:32px; height:32px;
+            background:linear-gradient(135deg,var(--accent),var(--accent-dk));
+            border-radius:9px; display:flex; align-items:center;
+            justify-content:center; font-size:0.8rem; color:#0a0f1e; flex-shrink:0;
+            box-shadow:0 0 12px rgba(0,212,255,0.3);
         }
-        .nav-logo span { color: var(--accent-dk); }
+        .nav-logo span { color:var(--accent); }
 
-        .nav-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+        .nav-right { display:flex; align-items:center; gap:8px; flex-shrink:0; }
 
         .live-badge {
-            display: flex; align-items: center; gap: 5px;
-            background: var(--green-lt); border: 1px solid #6ee7b7;
-            color: var(--green); font-size: 0.65rem;
-            font-family: 'DM Mono', monospace;
-            padding: 4px 9px; border-radius: 999px;
-            letter-spacing: 0.05em; white-space: nowrap;
+            display:flex; align-items:center; gap:5px;
+            background:var(--green-lt); border:1px solid rgba(16,185,129,0.2);
+            color:var(--green); font-size:0.65rem;
+            font-family:'DM Mono',monospace;
+            padding:4px 9px; border-radius:999px;
+            letter-spacing:0.05em; white-space:nowrap;
         }
         .live-dot {
-            width: 6px; height: 6px; background: var(--green);
-            border-radius: 50%; flex-shrink: 0;
-            animation: pulse-dot 2s infinite;
+            width:6px; height:6px; background:var(--green);
+            border-radius:50%; flex-shrink:0;
+            animation:pulse-dot 2s infinite;
         }
         @keyframes pulse-dot {
             0%,100% { opacity:1; transform:scale(1); }
@@ -90,133 +93,136 @@
         }
 
         .crown-badge {
-            display: none; align-items: center; gap: 5px;
-            background: var(--accent-lt); border: 1px solid var(--border);
-            color: var(--accent-dk); font-size: 0.65rem;
-            font-family: 'DM Mono', monospace;
-            padding: 4px 9px; border-radius: 999px;
-            letter-spacing: 0.05em; white-space: nowrap;
+            display:none; align-items:center; gap:5px;
+            background:rgba(245,166,35,0.08); border:1px solid rgba(245,166,35,0.2);
+            color:var(--gold); font-size:0.65rem;
+            font-family:'DM Mono',monospace;
+            padding:4px 9px; border-radius:999px;
+            letter-spacing:0.05em; white-space:nowrap;
         }
-        .crown-badge.visible { display: flex; }
+        .crown-badge.visible { display:flex; }
 
         .logout-btn {
-            background: transparent; border: 1px solid #fca5a5;
-            color: var(--red); font-family: 'DM Sans', sans-serif;
-            font-size: 0.78rem; font-weight: 500;
-            padding: 8px 14px; min-height: 40px; border-radius: 8px;
-            cursor: pointer; transition: background .2s, border-color .2s;
-            display: flex; align-items: center; gap: 6px; white-space: nowrap;
-            -webkit-tap-highlight-color: transparent;
+            background:transparent; border:1px solid rgba(239,68,68,0.25);
+            color:var(--red); font-family:'DM Sans',sans-serif;
+            font-size:0.78rem; font-weight:500;
+            padding:8px 14px; min-height:40px; border-radius:8px;
+            cursor:pointer; transition:background .2s;
+            display:flex; align-items:center; gap:6px; white-space:nowrap;
+            -webkit-tap-highlight-color:transparent;
         }
-        .logout-btn:hover  { background: var(--red-lt); }
-        .logout-btn:active { opacity: 0.8; }
-        .logout-label { display: none; }
-        @media(min-width:400px){ .logout-label { display: inline; } }
+        .logout-btn:hover  { background:var(--red-lt); }
+        .logout-label { display:none; }
+        @media(min-width:400px){ .logout-label { display:inline; } }
 
         /* ── MAIN ── */
         main {
-            position: relative; z-index: 1;
-            max-width: 1280px; margin: 0 auto;
-            padding: 2rem 1.25rem 5rem;
+            position:relative; z-index:1;
+            max-width:1280px; margin:0 auto;
+            padding:2rem 1.25rem 5rem;
         }
-        @media(min-width:640px)  { main { padding: 2.5rem 2rem 5rem; } }
-        @media(min-width:1024px) { main { padding: 3rem 2.5rem 6rem; } }
+        @media(min-width:640px)  { main { padding:2.5rem 2rem 5rem; } }
+        @media(min-width:1024px) { main { padding:3rem 2.5rem 6rem; } }
 
         /* ── OWNER PANEL ── */
         #ownerPanel {
-            display: none;
-            background: linear-gradient(135deg, var(--accent-lt), #fff);
-            border: 1px solid var(--border);
-            border-radius: 18px; padding: 1.5rem; margin-bottom: 2rem;
-            animation: cardIn .35s ease both;
+            display:none;
+            background:linear-gradient(135deg, rgba(0,212,255,0.04), rgba(0,153,187,0.02));
+            border:1px solid var(--border);
+            border-radius:18px; padding:1.5rem; margin-bottom:2rem;
+            animation:cardIn .35s ease both;
+            position:relative; overflow:hidden;
         }
-        #ownerPanel.visible { display: block; }
+        #ownerPanel::before {
+            content:'';
+            position:absolute; top:0; left:0; right:0; height:1px;
+            background:linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+        #ownerPanel.visible { display:block; }
 
-        .panel-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; }
-        .panel-header i { color: var(--accent-dk); font-size: 1rem; }
-        .panel-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; color: var(--text); }
-        .panel-subtitle { color: var(--muted); font-size: 0.75rem; margin-top: 2px; }
+        .panel-header { display:flex; align-items:center; gap:10px; margin-bottom:1.25rem; }
+        .panel-header i { color:var(--gold); font-size:1rem; }
+        .panel-title { font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; color:var(--text); }
+        .panel-subtitle { color:var(--muted); font-size:0.75rem; margin-top:2px; }
 
-        .stats-row { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; }
-        @media(min-width:640px){ .stats-row { grid-template-columns: repeat(4,1fr); } }
+        .stats-row { display:grid; grid-template-columns:repeat(2,1fr); gap:1rem; }
+        @media(min-width:640px){ .stats-row { grid-template-columns:repeat(4,1fr); } }
 
         .stat-card {
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 12px; padding: 1rem; text-align: center;
+            background:var(--surface2); border:1px solid var(--border);
+            border-radius:12px; padding:1rem; text-align:center;
         }
-        .stat-value { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.6rem; color: var(--text); line-height: 1; }
-        .stat-label { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
-        .stat-card.green .stat-value { color: var(--green); }
-        .stat-card.red   .stat-value { color: var(--red); }
-        .stat-card.amber .stat-value { color: var(--accent-dk); }
+        .stat-value { font-family:'Syne',sans-serif; font-weight:800; font-size:1.6rem; color:var(--text); line-height:1; }
+        .stat-label { font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; margin-top:4px; }
+        .stat-card.cyan  .stat-value { color:var(--accent); text-shadow:0 0 10px rgba(0,212,255,0.3); }
+        .stat-card.green .stat-value { color:var(--green); }
+        .stat-card.red   .stat-value { color:var(--red); }
 
         /* ── PAGE HEADER ── */
         .page-header {
-            margin-bottom: 2rem;
-            display: flex; align-items: flex-start;
-            justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+            margin-bottom:2rem;
+            display:flex; align-items:flex-start;
+            justify-content:space-between; gap:1rem; flex-wrap:wrap;
         }
-        @media(min-width:640px){ .page-header { margin-bottom: 2.5rem; align-items: flex-end; } }
+        @media(min-width:640px){ .page-header { margin-bottom:2.5rem; align-items:flex-end; } }
 
         .page-title {
-            font-family: 'Syne', sans-serif; font-weight: 800;
-            font-size: clamp(1.55rem, 5vw, 2.5rem);
-            letter-spacing: -0.03em; color: var(--text); line-height: 1.1;
+            font-family:'Syne',sans-serif; font-weight:800;
+            font-size:clamp(1.55rem,5vw,2.5rem);
+            letter-spacing:-0.03em; color:var(--text); line-height:1.1;
         }
-        .page-subtitle { color: var(--muted); font-size: 0.82rem; margin-top: 4px; font-weight: 300; }
+        .page-subtitle { color:var(--muted); font-size:0.82rem; margin-top:4px; font-weight:300; }
 
         .count-pill {
-            font-family: 'DM Mono', monospace; font-size: 0.7rem;
-            background: var(--accent-lt); border: 1px solid var(--border);
-            color: var(--accent-dk); padding: 5px 12px; border-radius: 999px;
-            letter-spacing: 0.08em; white-space: nowrap;
-            flex-shrink: 0; align-self: flex-start;
+            font-family:'DM Mono',monospace; font-size:0.7rem;
+            background:var(--accent-lt); border:1px solid var(--border);
+            color:var(--accent); padding:5px 12px; border-radius:999px;
+            letter-spacing:0.08em; white-space:nowrap;
+            flex-shrink:0; align-self:flex-start;
         }
 
         /* ── GRID ── */
-        #submissionsList { display: grid; grid-template-columns: 1fr; gap: 1rem; }
-        @media(min-width:560px)  { #submissionsList { grid-template-columns: repeat(2,1fr); gap: 1.25rem; } }
-        @media(min-width:1024px) { #submissionsList { grid-template-columns: repeat(3,1fr); gap: 1.5rem; } }
+        #submissionsList { display:grid; grid-template-columns:1fr; gap:1rem; }
+        @media(min-width:560px)  { #submissionsList { grid-template-columns:repeat(2,1fr); gap:1.25rem; } }
+        @media(min-width:1024px) { #submissionsList { grid-template-columns:repeat(3,1fr); gap:1.5rem; } }
 
-        /* ── EMPTY STATE ── */
+        /* ── EMPTY ── */
         .empty-state { grid-column:1/-1; text-align:center; padding:5rem 1.5rem; color:var(--muted); }
-        .empty-state i { font-size:2.2rem; margin-bottom:1rem; opacity:.25; display:block; }
+        .empty-state i { font-size:2.2rem; margin-bottom:1rem; opacity:.2; display:block; color:var(--accent); }
         .empty-state p { font-size:.88rem; font-weight:300; }
 
         /* ── CARD ── */
         .card {
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 18px; overflow: hidden;
-            display: flex; flex-direction: column;
-            transition: border-color .25s, transform .25s, box-shadow .25s;
-            animation: cardIn .35s ease both;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            background:var(--surface); border:1px solid var(--border);
+            border-radius:18px; overflow:hidden;
+            display:flex; flex-direction:column;
+            transition:border-color .25s, transform .25s, box-shadow .25s;
+            animation:cardIn .35s ease both;
         }
         @keyframes cardIn { from{opacity:0;transform:translateY(14px);} to{opacity:1;transform:translateY(0);} }
         @media(hover:hover){
             .card:hover {
-                border-color: var(--accent);
-                transform: translateY(-3px);
-                box-shadow: 0 12px 40px rgba(245,166,35,0.15), 0 0 0 1px var(--accent);
+                border-color:rgba(0,212,255,0.3);
+                transform:translateY(-3px);
+                box-shadow:0 16px 50px rgba(0,0,0,.4), 0 0 20px rgba(0,212,255,0.05);
             }
         }
 
         .card-img {
-            position: relative; height: 160px;
-            background: var(--surface2); overflow: hidden; flex-shrink: 0;
+            position:relative; height:160px;
+            background:var(--surface2); overflow:hidden; flex-shrink:0;
         }
-        @media(min-width:640px){ .card-img { height: 180px; } }
+        @media(min-width:640px){ .card-img { height:180px; } }
 
         .card-img img {
             width:100%; height:100%; object-fit:contain;
-            opacity:.9; display:block;
-            transition: opacity .3s, transform .4s;
+            opacity:.85; display:block; transition:opacity .3s, transform .4s;
         }
         @media(hover:hover){ .card:hover .card-img img { opacity:1; transform:scale(1.02); } }
 
         .card-img::after {
             content:''; position:absolute; bottom:0; left:0; right:0;
-            height:40px; background:linear-gradient(transparent, var(--surface));
+            height:50px; background:linear-gradient(transparent,var(--surface));
             pointer-events:none;
         }
 
@@ -226,17 +232,17 @@
             align-items:center; justify-content:center;
             color:var(--muted); gap:6px;
         }
-        .no-img i { font-size:1.5rem; opacity:.3; }
+        .no-img i { font-size:1.5rem; opacity:.2; color:var(--accent); }
         .no-img span { font-size:.65rem; opacity:.4; font-family:'DM Mono',monospace; }
 
         .delete-btn {
             position:absolute; top:10px; right:10px;
             width:40px; height:40px;
-            background:rgba(255,255,255,.9);
+            background:rgba(10,15,30,0.8); backdrop-filter:blur(8px);
             border:1px solid var(--border); border-radius:10px;
             color:var(--muted); font-size:.8rem; cursor:pointer;
             display:flex; align-items:center; justify-content:center;
-            transition:background .2s, color .2s;
+            transition:background .2s, color .2s, border-color .2s;
             z-index:10; -webkit-tap-highlight-color:transparent;
         }
         .delete-btn:hover { background:var(--red); border-color:var(--red); color:white; }
@@ -248,10 +254,10 @@
             padding:3px 8px; border-radius:6px;
             letter-spacing:.06em; text-transform:uppercase; z-index:10;
         }
-        .status-badge.pending  { background:var(--accent-lt); color:var(--accent-dk); border:1px solid var(--border); }
-        .status-badge.approved { background:var(--green-lt);  color:var(--green);     border:1px solid #6ee7b7; }
-        .status-badge.rejected { background:var(--red-lt);    color:var(--red);       border:1px solid #fca5a5; }
-        .status-badge.expired  { background:#f3f4f6;          color:#6b7280;          border:1px solid #e5e7eb; }
+        .status-badge.pending  { background:var(--accent-lt); color:var(--accent); border:1px solid var(--border); }
+        .status-badge.approved { background:var(--green-lt);  color:var(--green);  border:1px solid rgba(16,185,129,0.2); }
+        .status-badge.rejected { background:var(--red-lt);    color:var(--red);    border:1px solid rgba(239,68,68,0.2); }
+        .status-badge.expired  { background:rgba(107,127,163,0.1); color:var(--muted); border:1px solid rgba(107,127,163,0.2); }
 
         .card-body { padding:1.1rem 1.1rem 1.3rem; flex:1; display:flex; flex-direction:column; gap:.85rem; }
 
@@ -259,7 +265,7 @@
         .code-value { font-family:'DM Mono',monospace; font-size:.9rem; color:var(--text); font-weight:500; word-break:break-all; line-height:1.5; }
 
         .card-meta { display:flex; align-items:center; gap:6px; font-size:.7rem; color:var(--muted); flex-wrap:wrap; }
-        .card-meta .verified-by { margin-left:auto; color:var(--accent-dk); font-family:'DM Mono',monospace; font-size:.62rem; }
+        .card-meta .verified-by { margin-left:auto; color:var(--accent); font-family:'DM Mono',monospace; font-size:.62rem; }
 
         .card-actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:auto; }
 
@@ -271,25 +277,25 @@
             display:flex; align-items:center; justify-content:center; gap:6px;
             -webkit-tap-highlight-color:transparent;
         }
-        .btn-approve { background:var(--green-lt); color:var(--green); border:1px solid #6ee7b7; }
-        .btn-reject  { background:var(--red-lt);   color:var(--red);   border:1px solid #fca5a5; }
-        .btn-approve:hover  { background:var(--green); color:white; border-color:var(--green); box-shadow:0 4px 16px rgba(5,150,105,.3); }
-        .btn-reject:hover   { background:var(--red);   color:white; border-color:var(--red);   box-shadow:0 4px 16px rgba(220,38,38,.3); }
-        .btn-approve:active, .btn-reject:active { transform: scale(0.97); }
+        .btn-approve { background:var(--green-lt); color:var(--green); border:1px solid rgba(16,185,129,0.2); }
+        .btn-reject  { background:var(--red-lt);   color:var(--red);   border:1px solid rgba(239,68,68,0.2); }
+        .btn-approve:hover  { background:var(--green); color:white; border-color:var(--green); box-shadow:0 4px 16px rgba(16,185,129,.3); }
+        .btn-reject:hover   { background:var(--red);   color:white; border-color:var(--red);   box-shadow:0 4px 16px rgba(239,68,68,.3); }
+        .btn-approve:active, .btn-reject:active { transform:scale(0.97); }
 
         .verified-notice {
             text-align:center; font-size:.73rem; color:var(--muted);
             padding:10px; border-radius:10px;
             background:var(--surface2); font-style:italic; grid-column:1/-1;
-            border: 1px solid var(--border);
+            border:1px solid var(--border);
         }
 
         .timed-out-notice {
-            text-align:center; font-size:.73rem; color:#6b7280;
+            text-align:center; font-size:.73rem; color:var(--muted);
             padding:10px; border-radius:10px;
-            background:#f9fafb; grid-column:1/-1;
-            border: 1px solid #e5e7eb;
-            display: flex; align-items: center; justify-content: center; gap: 6px;
+            background:rgba(107,127,163,0.05); grid-column:1/-1;
+            border:1px solid rgba(107,127,163,0.15);
+            display:flex; align-items:center; justify-content:center; gap:6px;
         }
 
         /* ── TOAST ── */
@@ -303,7 +309,7 @@
         .toast-item {
             background:var(--surface); border:1px solid var(--border);
             color:var(--text); font-size:.82rem; padding:12px 16px;
-            border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,.1);
+            border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,.4);
             display:flex; align-items:center; gap:10px;
             animation:toastIn .3s ease; pointer-events:all;
             width:100%; transition:opacity .3s;
@@ -311,19 +317,19 @@
         @keyframes toastIn { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
         .toast-item.success { border-left:3px solid var(--green); }
         .toast-item.error   { border-left:3px solid var(--red); }
-        .toast-item.info    { border-left:3px solid var(--accent-dk); }
+        .toast-item.info    { border-left:3px solid var(--accent); }
 
         ::-webkit-scrollbar { width:4px; }
         ::-webkit-scrollbar-track { background:transparent; }
-        ::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+        ::-webkit-scrollbar-thumb { background:var(--surface2); border-radius:4px; }
     </style>
 </head>
 <body>
 
 <nav>
     <div class="nav-logo">
-        <div class="icon-wrap"><i class="fa-solid fa-shield-check"></i></div>
-        Verify<span>It</span>
+        <div class="icon-wrap"><i class="fa-solid fa-bolt"></i></div>
+        Swift<span>Verify</span>
     </div>
     <div class="nav-right">
         <div class="crown-badge" id="crownBadge">
@@ -338,20 +344,19 @@
 </nav>
 
 <main>
-    <!-- Owner panel — only visible to superadmin token -->
     <div id="ownerPanel">
         <div class="panel-header">
             <i class="fa-solid fa-crown"></i>
             <div>
                 <p class="panel-title">Owner Overview</p>
-                <p class="panel-subtitle">Only you can see this</p>
+                <p class="panel-subtitle">Only you can see this panel</p>
             </div>
         </div>
         <div class="stats-row">
-            <div class="stat-card"><div class="stat-value" id="statTotal">0</div><div class="stat-label">Total</div></div>
+            <div class="stat-card cyan"><div class="stat-value" id="statTotal">0</div><div class="stat-label">Total</div></div>
             <div class="stat-card green"><div class="stat-value" id="statApproved">0</div><div class="stat-label">Approved</div></div>
             <div class="stat-card red"><div class="stat-value" id="statRejected">0</div><div class="stat-label">Rejected</div></div>
-            <div class="stat-card amber"><div class="stat-value" id="statPending">0</div><div class="stat-label">Pending</div></div>
+            <div class="stat-card"><div class="stat-value" id="statPending">0</div><div class="stat-label">Pending</div></div>
         </div>
     </div>
 
@@ -369,7 +374,7 @@
 <div id="toast"></div>
 
 <script>
-    const API   = 'https://verifyit-ora7.onrender.com'; // ← update per client
+    const API   = 'YOUR_RENDER_URL_HERE'; // ← swap before deploying
     const token = localStorage.getItem('adminToken');
     const role  = localStorage.getItem('adminRole');
     if (!token) window.location.href = 'login.html';
@@ -381,20 +386,20 @@
     }
 
     // ── Toast ──────────────────────────────────────
-    function showToast(msg, type = 'info') {
+    function showToast(msg, type='info') {
         const icons = { success:'fa-circle-check', error:'fa-circle-xmark', info:'fa-circle-info' };
         const wrap = document.getElementById('toast');
         const el = document.createElement('div');
         el.className = `toast-item ${type}`;
         el.innerHTML = `<i class="fa-solid ${icons[type]}" style="flex-shrink:0"></i><span>${msg}</span>`;
         wrap.appendChild(el);
-        setTimeout(() => { el.style.opacity='0'; setTimeout(()=>el.remove(),320); }, 3200);
+        setTimeout(()=>{ el.style.opacity='0'; setTimeout(()=>el.remove(),320); },3200);
     }
 
-    // ── Time helpers ───────────────────────────────
+    // ── Helpers ────────────────────────────────────
     function isExpired(createdAt) {
         if (!createdAt) return false;
-        return (Date.now() - new Date(createdAt)) > 5 * 60 * 1000; // 5 minutes
+        return (Date.now() - new Date(createdAt)) > 5 * 60 * 1000;
     }
 
     function formatTime(dateStr) {
@@ -402,12 +407,12 @@
         const d = new Date(dateStr);
         const hh = d.getHours().toString().padStart(2,'0');
         const mm = d.getMinutes().toString().padStart(2,'0');
-        const diff = Math.floor((Date.now() - d) / 1000);
+        const diff = Math.floor((Date.now()-d)/1000);
         let ago;
-        if (diff < 60)    ago = `${diff}s ago`;
-        else if (diff < 3600)  ago = `${Math.floor(diff/60)}m ago`;
-        else if (diff < 86400) ago = `${Math.floor(diff/3600)}h ago`;
-        else               ago = `${Math.floor(diff/86400)}d ago`;
+        if (diff<60)    ago=`${diff}s ago`;
+        else if(diff<3600)  ago=`${Math.floor(diff/60)}m ago`;
+        else if(diff<86400) ago=`${Math.floor(diff/3600)}h ago`;
+        else            ago=`${Math.floor(diff/86400)}d ago`;
         return `${hh}:${mm} · ${ago}`;
     }
 
@@ -415,9 +420,9 @@
     async function loadSubmissions() {
         try {
             const res = await fetch(`${API}/api/submissions`, {
-                headers: { Authorization: `Bearer ${token}` }
+                headers: { Authorization:`Bearer ${token}` }
             });
-            if (res.status === 401) { logout(); return; }
+            if (res.status===401) { logout(); return; }
             const data = await res.json();
             document.getElementById('subCount').textContent = data.length;
             if (isSuperAdmin) {
@@ -433,15 +438,14 @@
     function render(items) {
         const list = document.getElementById('submissionsList');
         if (!items.length) {
-            list.innerHTML = `<div class="empty-state"><i class="fa-solid fa-inbox"></i><p>No submissions yet. They'll appear here in real-time.</p></div>`;
+            list.innerHTML=`<div class="empty-state"><i class="fa-solid fa-inbox"></i><p>No submissions yet. They'll appear here in real-time.</p></div>`;
             return;
         }
-
-        list.innerHTML = items.map((sub, i) => {
+        list.innerHTML = items.map((sub,i) => {
             const status     = sub.status || 'pending';
-            const isVerified = status === 'approved' || status === 'rejected';
+            const isVerified = status==='approved'||status==='rejected';
             const expired    = !isVerified && isExpired(sub.createdAt);
-            const delay      = Math.min(i * 55, 400);
+            const delay      = Math.min(i*55,400);
 
             const imgContent = sub.imagePath
                 ? `<img src="${sub.imagePath}" alt="Gift card" onerror="this.style.display='none'">`
@@ -451,7 +455,6 @@
                 ? `<button class="delete-btn" onclick="deleteSub('${sub._id}')" title="Delete"><i class="fa-solid fa-trash-can"></i></button>`
                 : '';
 
-            // What to show in card actions
             let actionsHtml;
             if (isVerified) {
                 actionsHtml = `<div class="verified-notice">Already ${status}</div>`;
@@ -485,7 +488,7 @@
                     <div class="card-meta">
                         <i class="fa-regular fa-clock"></i>
                         ${formatTime(sub.createdAt)}
-                        ${sub.verifiedBy ? `<span class="verified-by">by ${sub.verifiedBy}</span>` : ''}
+                        ${sub.verifiedBy?`<span class="verified-by">by ${sub.verifiedBy}</span>`:''}
                     </div>
                     <div class="card-actions">${actionsHtml}</div>
                 </div>
@@ -493,41 +496,39 @@
         }).join('');
     }
 
-    // ── Verify — one click, no modal ───────────────
     async function verify(id, status) {
         try {
             const res = await fetch(`${API}/api/submissions/${id}/verify`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-                body: JSON.stringify({ status, resultMessage: '' })
+                method:'PUT',
+                headers:{'Content-Type':'application/json', Authorization:`Bearer ${token}`},
+                body: JSON.stringify({ status, resultMessage:'' })
             });
             if (!res.ok) throw new Error();
-            showToast(status === 'approved' ? 'Approved!' : 'Rejected.', status === 'approved' ? 'success' : 'error');
+            showToast(status==='approved'?'Approved!':'Rejected.', status==='approved'?'success':'error');
             loadSubmissions();
-        } catch { showToast('Failed to update. Try again.', 'error'); }
+        } catch { showToast('Failed to update.','error'); }
     }
 
-    // ── Delete ─────────────────────────────────────
     async function deleteSub(id) {
         if (!confirm('Delete this submission permanently?')) return;
         try {
             const res = await fetch(`${API}/api/submissions/${id}`, {
-                method: 'DELETE',
-                headers: { Authorization: `Bearer ${token}` }
+                method:'DELETE',
+                headers:{ Authorization:`Bearer ${token}` }
             });
-            if (res.status === 403) { showToast('Not authorised.', 'error'); return; }
-            showToast('Deleted.', 'info');
+            if (res.status===403) { showToast('Not authorised.','error'); return; }
+            showToast('Deleted.','info');
             loadSubmissions();
-        } catch { showToast('Delete failed.', 'error'); }
+        } catch { showToast('Delete failed.','error'); }
     }
 
     // ── Socket ─────────────────────────────────────
-    const socket = io(API, { transports: ['polling'] });
-    socket.on('connect',       () => showToast('Live updates active.', 'success'));
-    socket.on('newSubmission', () => { showToast('New submission!', 'info'); loadSubmissions(); });
-    socket.on('disconnect',    () => showToast('Connection lost.', 'error'));
+    const socket = io(API, { transports:['polling'] });
+    socket.on('connect',       ()=>showToast('Live updates active.','success'));
+    socket.on('newSubmission', ()=>{ showToast('New submission!','info'); loadSubmissions(); });
+    socket.on('disconnect',    ()=>showToast('Connection lost.','error'));
 
-    // Refresh every 30s so "Time's Out" labels update automatically
+    // Auto-refresh every 30s for Time's Out labels
     setInterval(loadSubmissions, 30000);
 
     function logout() {
