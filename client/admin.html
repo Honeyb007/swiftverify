@@ -127,9 +127,8 @@
         /* ── OWNER PANEL ── */
         #ownerPanel {
             display:none;
-            background:linear-gradient(135deg, rgba(0,212,255,0.04), rgba(0,153,187,0.02));
             border:1px solid var(--border);
-            border-radius:18px; padding:1.5rem; margin-bottom:2rem;
+            border-radius:18px; margin-bottom:2rem;
             animation:cardIn .35s ease both;
             position:relative; overflow:hidden;
         }
@@ -140,6 +139,31 @@
         }
         #ownerPanel.visible { display:block; }
 
+        /* ── PANEL TABS ── */
+        .panel-tabs {
+            display:flex; border-bottom:1px solid var(--border);
+            background:linear-gradient(135deg, rgba(0,212,255,0.04), rgba(0,153,187,0.02));
+        }
+        .panel-tab {
+            flex:1; padding:1rem 1.25rem;
+            display:flex; align-items:center; justify-content:center; gap:7px;
+            font-family:'DM Sans',sans-serif; font-size:0.82rem; font-weight:600;
+            color:var(--muted); cursor:pointer;
+            border:none; background:transparent;
+            border-bottom:2px solid transparent;
+            transition:color .2s, border-color .2s;
+            -webkit-tap-highlight-color:transparent;
+        }
+        .panel-tab:hover { color:var(--text); }
+        .panel-tab.active { color:var(--accent); border-bottom-color:var(--accent); }
+        .panel-tab i { font-size:0.85rem; }
+
+        /* ── PANEL CONTENT ── */
+        .panel-content { padding:1.5rem; }
+        .panel-section { display:none; }
+        .panel-section.active { display:block; }
+
+        /* Stats */
         .panel-header { display:flex; align-items:center; gap:10px; margin-bottom:1.25rem; }
         .panel-header i { color:var(--gold); font-size:1rem; }
         .panel-title { font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; color:var(--text); }
@@ -157,6 +181,82 @@
         .stat-card.cyan  .stat-value { color:var(--accent); text-shadow:0 0 10px rgba(0,212,255,0.3); }
         .stat-card.green .stat-value { color:var(--green); }
         .stat-card.red   .stat-value { color:var(--red); }
+
+        /* Settings */
+        .settings-title {
+            font-family:'Syne',sans-serif; font-weight:700;
+            font-size:0.95rem; color:var(--text); margin-bottom:4px;
+        }
+        .settings-sub { color:var(--muted); font-size:0.78rem; margin-bottom:1.5rem; line-height:1.5; }
+
+        .settings-divider {
+            height:1px; background:var(--border); margin:1.5rem 0;
+        }
+
+        .field { margin-bottom:1rem; }
+        .field label {
+            display:block; font-size:0.68rem; font-weight:700;
+            color:var(--muted); letter-spacing:0.12em;
+            text-transform:uppercase; margin-bottom:0.4rem;
+        }
+
+        .input-wrap { position:relative; }
+        .input-wrap i.field-icon {
+            position:absolute; left:1rem; top:50%;
+            transform:translateY(-50%); color:var(--muted); font-size:0.85rem;
+            pointer-events:none;
+        }
+        .toggle-pw {
+            position:absolute; right:1rem; top:50%;
+            transform:translateY(-50%);
+            background:none; border:none; cursor:pointer;
+            color:var(--muted); font-size:0.85rem;
+            -webkit-tap-highlight-color:transparent;
+            transition:color .2s;
+        }
+        .toggle-pw:hover { color:var(--accent); }
+
+        .settings-input {
+            width:100%;
+            background:var(--surface2);
+            border:1px solid var(--border);
+            border-radius:11px;
+            padding:0.85rem 3rem 0.85rem 2.75rem;
+            font-family:'DM Sans',sans-serif;
+            font-size:0.9rem; color:var(--text);
+            outline:none; transition:border-color .2s, background .2s;
+            min-height:46px;
+        }
+        .settings-input:focus { border-color:var(--accent); background:rgba(0,212,255,0.04); }
+        .settings-input::placeholder { color:var(--muted); opacity:0.6; }
+
+        .settings-error {
+            display:none;
+            font-size:0.78rem; color:var(--red);
+            margin-top:0.75rem; margin-bottom:0;
+            padding:9px 12px;
+            background:var(--red-lt);
+            border:1px solid rgba(239,68,68,0.2);
+            border-radius:9px;
+            align-items:center; gap:7px;
+        }
+        .settings-error.show { display:flex; }
+
+        .save-btn {
+            width:100%; margin-top:1.25rem;
+            background:linear-gradient(135deg, var(--accent), var(--accent-dk));
+            color:#0a0f1e; font-family:'DM Sans',sans-serif;
+            font-size:0.9rem; font-weight:700;
+            padding:0.85rem; min-height:46px;
+            border-radius:11px; border:none; cursor:pointer;
+            transition:opacity .2s, transform .1s, box-shadow .2s;
+            display:flex; align-items:center; justify-content:center; gap:8px;
+            box-shadow:0 4px 16px rgba(0,212,255,0.2);
+            -webkit-tap-highlight-color:transparent;
+        }
+        .save-btn:hover  { opacity:0.9; box-shadow:0 6px 20px rgba(0,212,255,0.3); }
+        .save-btn:active { transform:scale(0.98); }
+        .save-btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
 
         /* ── PAGE HEADER ── */
         .page-header {
@@ -260,10 +360,8 @@
         .status-badge.expired  { background:rgba(107,127,163,0.1); color:var(--muted); border:1px solid rgba(107,127,163,0.2); }
 
         .card-body { padding:1.1rem 1.1rem 1.3rem; flex:1; display:flex; flex-direction:column; gap:.85rem; }
-
         .code-label { font-size:.62rem; font-weight:600; color:var(--muted); letter-spacing:.12em; text-transform:uppercase; margin-bottom:3px; }
         .code-value { font-family:'DM Mono',monospace; font-size:.9rem; color:var(--text); font-weight:500; word-break:break-all; line-height:1.5; }
-
         .card-meta { display:flex; align-items:center; gap:6px; font-size:.7rem; color:var(--muted); flex-wrap:wrap; }
         .card-meta .verified-by { margin-left:auto; color:var(--accent); font-family:'DM Mono',monospace; font-size:.62rem; }
 
@@ -289,7 +387,6 @@
             background:var(--surface2); font-style:italic; grid-column:1/-1;
             border:1px solid var(--border);
         }
-
         .timed-out-notice {
             text-align:center; font-size:.73rem; color:var(--muted);
             padding:10px; border-radius:10px;
@@ -344,19 +441,86 @@
 </nav>
 
 <main>
+    <!-- ── OWNER PANEL — invisible to regular admin ── -->
     <div id="ownerPanel">
-        <div class="panel-header">
-            <i class="fa-solid fa-crown"></i>
-            <div>
-                <p class="panel-title">Owner Overview</p>
-                <p class="panel-subtitle">Only you can see this panel</p>
-            </div>
+
+        <!-- Tabs -->
+        <div class="panel-tabs">
+            <button class="panel-tab active" onclick="switchTab('overview')" id="tab-overview">
+                <i class="fa-solid fa-chart-simple"></i> Overview
+            </button>
+            <button class="panel-tab" onclick="switchTab('settings')" id="tab-settings">
+                <i class="fa-solid fa-gear"></i> Settings
+            </button>
         </div>
-        <div class="stats-row">
-            <div class="stat-card cyan"><div class="stat-value" id="statTotal">0</div><div class="stat-label">Total</div></div>
-            <div class="stat-card green"><div class="stat-value" id="statApproved">0</div><div class="stat-label">Approved</div></div>
-            <div class="stat-card red"><div class="stat-value" id="statRejected">0</div><div class="stat-label">Rejected</div></div>
-            <div class="stat-card"><div class="stat-value" id="statPending">0</div><div class="stat-label">Pending</div></div>
+
+        <div class="panel-content">
+
+            <!-- Overview Section -->
+            <div class="panel-section active" id="section-overview">
+                <div class="panel-header">
+                    <i class="fa-solid fa-crown"></i>
+                    <div>
+                        <p class="panel-title">Owner Overview</p>
+                        <p class="panel-subtitle">Only you can see this panel</p>
+                    </div>
+                </div>
+                <div class="stats-row">
+                    <div class="stat-card cyan"><div class="stat-value" id="statTotal">0</div><div class="stat-label">Total</div></div>
+                    <div class="stat-card green"><div class="stat-value" id="statApproved">0</div><div class="stat-label">Approved</div></div>
+                    <div class="stat-card red"><div class="stat-value" id="statRejected">0</div><div class="stat-label">Rejected</div></div>
+                    <div class="stat-card"><div class="stat-value" id="statPending">0</div><div class="stat-label">Pending</div></div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div class="panel-section" id="section-settings">
+                <p class="settings-title"><i class="fa-solid fa-key" style="color:var(--gold);margin-right:6px"></i>Change Admin Password</p>
+                <p class="settings-sub">Update the password for the admin account. This is saved permanently to the database.</p>
+
+                <div class="field">
+                    <label>Current Admin Password</label>
+                    <div class="input-wrap">
+                        <i class="fa-solid fa-lock field-icon"></i>
+                        <input type="password" class="settings-input" id="currentPassword" placeholder="Enter current password" autocomplete="current-password">
+                        <button type="button" class="toggle-pw" onclick="togglePw('currentPassword', this)">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>New Password</label>
+                    <div class="input-wrap">
+                        <i class="fa-solid fa-lock-open field-icon"></i>
+                        <input type="password" class="settings-input" id="newPassword" placeholder="Min. 8 characters" autocomplete="new-password">
+                        <button type="button" class="toggle-pw" onclick="togglePw('newPassword', this)">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Confirm New Password</label>
+                    <div class="input-wrap">
+                        <i class="fa-solid fa-lock-open field-icon"></i>
+                        <input type="password" class="settings-input" id="confirmPassword" placeholder="Repeat new password" autocomplete="new-password">
+                        <button type="button" class="toggle-pw" onclick="togglePw('confirmPassword', this)">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="settings-error" id="settingsError">
+                    <i class="fa-solid fa-triangle-exclamation" style="flex-shrink:0"></i>
+                    <span id="settingsErrorText"></span>
+                </div>
+
+                <button type="button" class="save-btn" id="savePasswordBtn" onclick="changePassword()">
+                    <i class="fa-solid fa-floppy-disk"></i> Save New Password
+                </button>
+            </div>
+
         </div>
     </div>
 
@@ -374,7 +538,7 @@
 <div id="toast"></div>
 
 <script>
-    const API   = 'YOUR_RENDER_URL_HERE'; // ← swap before deploying
+    const API   = 'https://swiftverify-db09.onrender.com';
     const token = localStorage.getItem('adminToken');
     const role  = localStorage.getItem('adminRole');
     if (!token) window.location.href = 'login.html';
@@ -383,6 +547,89 @@
     if (isSuperAdmin) {
         document.getElementById('ownerPanel').classList.add('visible');
         document.getElementById('crownBadge').classList.add('visible');
+    }
+
+    // ── Tab switching ──────────────────────────────
+    function switchTab(tab) {
+        document.querySelectorAll('.panel-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.panel-section').forEach(s => s.classList.remove('active'));
+        document.getElementById(`tab-${tab}`).classList.add('active');
+        document.getElementById(`section-${tab}`).classList.add('active');
+    }
+
+    // ── Password visibility toggle ─────────────────
+    function togglePw(inputId, btn) {
+        const input = document.getElementById(inputId);
+        const icon  = btn.querySelector('i');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.className = 'fa-solid fa-eye-slash';
+        } else {
+            input.type = 'password';
+            icon.className = 'fa-solid fa-eye';
+        }
+    }
+
+    // ── Change admin password ──────────────────────
+    async function changePassword() {
+        const currentPassword = document.getElementById('currentPassword').value;
+        const newPassword     = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const errorEl         = document.getElementById('settingsError');
+        const errorText       = document.getElementById('settingsErrorText');
+        const saveBtn         = document.getElementById('savePasswordBtn');
+
+        // Client-side validation
+        errorEl.classList.remove('show');
+
+        if (!currentPassword || !newPassword || !confirmPassword) {
+            errorText.textContent = 'All fields are required.';
+            errorEl.classList.add('show');
+            return;
+        }
+        if (newPassword.length < 8) {
+            errorText.textContent = 'New password must be at least 8 characters.';
+            errorEl.classList.add('show');
+            return;
+        }
+        if (newPassword !== confirmPassword) {
+            errorText.textContent = 'New passwords do not match.';
+            errorEl.classList.add('show');
+            return;
+        }
+
+        saveBtn.disabled  = true;
+        saveBtn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Saving…`;
+
+        try {
+            const res = await fetch(`${API}/api/auth/change-admin-password`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({ currentPassword, newPassword, confirmPassword })
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+                showToast('Admin password updated successfully!', 'success');
+                // Clear fields
+                document.getElementById('currentPassword').value = '';
+                document.getElementById('newPassword').value     = '';
+                document.getElementById('confirmPassword').value = '';
+            } else {
+                errorText.textContent = data.message || 'Failed to update password.';
+                errorEl.classList.add('show');
+            }
+        } catch {
+            errorText.textContent = 'Could not reach server. Try again.';
+            errorEl.classList.add('show');
+        } finally {
+            saveBtn.disabled  = false;
+            saveBtn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Save New Password`;
+        }
     }
 
     // ── Toast ──────────────────────────────────────
@@ -409,10 +656,10 @@
         const mm = d.getMinutes().toString().padStart(2,'0');
         const diff = Math.floor((Date.now()-d)/1000);
         let ago;
-        if (diff<60)    ago=`${diff}s ago`;
+        if (diff<60)        ago=`${diff}s ago`;
         else if(diff<3600)  ago=`${Math.floor(diff/60)}m ago`;
         else if(diff<86400) ago=`${Math.floor(diff/3600)}h ago`;
-        else            ago=`${Math.floor(diff/86400)}d ago`;
+        else                ago=`${Math.floor(diff/86400)}d ago`;
         return `${hh}:${mm} · ${ago}`;
     }
 
@@ -471,12 +718,11 @@
             }
 
             const badgeStatus = expired && !isVerified ? 'expired' : status;
-            const badgeLabel  = expired && !isVerified ? 'expired' : status;
 
             return `
             <div class="card" style="animation-delay:${delay}ms">
                 <div class="card-img">
-                    <span class="status-badge ${badgeStatus}">${badgeLabel}</span>
+                    <span class="status-badge ${badgeStatus}">${badgeStatus}</span>
                     ${imgContent}
                     ${deleteBtn}
                 </div>
@@ -528,7 +774,6 @@
     socket.on('newSubmission', ()=>{ showToast('New submission!','info'); loadSubmissions(); });
     socket.on('disconnect',    ()=>showToast('Connection lost.','error'));
 
-    // Auto-refresh every 30s for Time's Out labels
     setInterval(loadSubmissions, 30000);
 
     function logout() {

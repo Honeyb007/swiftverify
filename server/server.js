@@ -21,7 +21,7 @@ const server = http.createServer(app);
 // ── Socket.io ─────────────────────────────────────────────
 const io = new Server(server, {
     cors: {
-        origin:  [, 'http://localhost:3000', 'http://localhost:8080', 'https://verifyit-ora7.onrender.com', 'http://127.0.0.1:5500'],   // Allow production and common dev ports
+        origin:  [, 'http://localhost:3000', 'http://localhost:8080', 'https://swiftverify-db09.onrender.com', 'http://127.0.0.1:5500'],   // Allow production and common dev ports
         methods: ['GET', 'POST'],
     },
     transports: ['polling']
