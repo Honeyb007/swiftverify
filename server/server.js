@@ -21,7 +21,13 @@ const server = http.createServer(app);
 // ── Socket.io ─────────────────────────────────────────────
 const io = new Server(server, {
     cors: {
-        origin:  [, 'http://localhost:3000', 'http://localhost:8080', 'https://swiftverify-db09.onrender.com', 'http://127.0.0.1:5500'],   // Allow production and common dev ports
+        origin: [
+            'https://swiftverify.me',
+            'https://www.swiftverify.me',
+            'https://swiftverify-db09.onrender.com',
+            'http://localhost:3000',
+            'http://127.0.0.1:5500'
+        ],
         methods: ['GET', 'POST'],
     },
     transports: ['polling']
@@ -30,13 +36,17 @@ app.set('io', io);
 
 // ── Middleware ────────────────────────────────────────────
 app.use(cors({
-    origin: ['https://verifyit-ora7.onrender.com', 'http://localhost:3000', 'http://localhost:8080' ,'http://127.0.0.1:5500' ],   // Allow production and common dev ports
+    origin: [
+        'https://swiftverify.me',
+        'https://www.swiftverify.me',
+        'https://swiftverify-db09.onrender.com',
+        'http://localhost:3000',
+        'http://localhost:8080',
+        'http://127.0.0.1:5500'
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true
-}
-));
-app.use(express.json());
-
+}));
 // Serve client files — must come AFTER app is created
 app.use(express.static(path.join(__dirname, '../client')));
 
