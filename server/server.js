@@ -47,6 +47,10 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true
 }));
+app.options(/.*/, cors());                       // ← fixed
+app.use(express.json());                         // ← add
+app.use(express.urlencoded({ extended: true })); // ← add
+
 // Serve client files — must come AFTER app is created
 app.use(express.static(path.join(__dirname, '../client')));
 
