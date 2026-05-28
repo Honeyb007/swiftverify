@@ -11,7 +11,9 @@ const dotenv = require('dotenv');
 const path = require('path');
 
 dotenv.config();
-console.log('Cloudinary name:', process.env.CLOUDINARY_CLOUD_NAME); // ← add this
+console.log('Cloudinary name:', process.env.CLOUDINARY_CLOUD_NAME); 
+console.log('Superadmin user:', process.env.SUPERADMIN_USERNAME);
+
 
 
 // ── App & Server ──────────────────────────────────────────
